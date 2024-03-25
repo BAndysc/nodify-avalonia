@@ -86,22 +86,6 @@
                         <nodify:LineConnection.Theme>
                             <ControlTheme TargetType="{x:Type nodify:LineConnection}"
                                    BasedOn="{StaticResource {x:Type nodify:LineConnection}}">
-                                <Setter Property="StrokeThickness"
-                                        Value="3" />
-                                <Setter Property="(Interaction.Behaviors)">
-                                    <BehaviorCollectionTemplate>
-                                        <BehaviorCollection>
-                                            <DataTrigger Property="IsActive"
-                                                                    Value="True">
-                                                <PropertySetter Property="Stroke"
-                                                                Value="{DynamicResource ActiveStateBrush}" />
-                                                <!-- Avalonia bug? it crashes (at least on mac) -->
-                                                <!-- <PropertySetter Property="StrokeThickness" -->
-                                                <!--                 Value="6" /> -->
-                                            </DataTrigger>
-                                        </BehaviorCollection>
-                                    </BehaviorCollectionTemplate>
-                                </Setter>
                             </ControlTheme>
                         </nodify:LineConnection.Theme>
                         <nodify:LineConnection.ContextMenu>
