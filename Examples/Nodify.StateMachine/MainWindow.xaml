@@ -86,6 +86,9 @@
                         <nodify:LineConnection.Theme>
                             <ControlTheme TargetType="{x:Type nodify:LineConnection}"
                                    BasedOn="{StaticResource {x:Type nodify:LineConnection}}">
+                                <!-- This crahes the app -->
+                                <Setter Property="StrokeThickness"
+                                        Value="{Binding IsActive, Converter={x:Static local:BoolToDoubleConverter.Instance}}" />
                             </ControlTheme>
                         </nodify:LineConnection.Theme>
                         <nodify:LineConnection.ContextMenu>
