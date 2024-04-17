@@ -31,6 +31,7 @@ namespace Nodify
         /// <summary>
         /// Gets or sets the data for the control's content.
         /// </summary>
+        [Content]
         public object Content
         {
             get => GetValue(ContentProperty);

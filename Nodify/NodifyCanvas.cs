@@ -88,5 +88,10 @@ namespace Nodify
 
             return default;
         }
+
+        static NodifyCanvas()
+        {
+            AffectsParentArrange<NodifyCanvas>(ItemContainer.LocationProperty);
+        }
     }
 }

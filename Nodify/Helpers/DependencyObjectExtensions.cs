@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Avalonia.Animation.Easings;
 
 namespace Nodify
 {
@@ -59,7 +61,7 @@ namespace Nodify
 
         #region Animation
 
-        public static async System.Threading.Tasks.Task StartAnimation<T>(this Control animatableElement, StyledProperty<T> dependencyProperty, T toValue, double animationDurationSeconds, EventHandler? completedEvent = null)
+        public static async System.Threading.Tasks.Task StartAnimation<T>(this Control animatableElement, StyledProperty<T> dependencyProperty, T toValue, double animationDurationSeconds, CancellationToken token, EventHandler? completedEvent = null)
         {
             var fromValue = (T)animatableElement.GetValue(dependencyProperty);
 
@@ -76,14 +78,16 @@ namespace Nodify
             var animation = new Avalonia.Animation.Animation()
             {
                 Duration = TimeSpan.FromSeconds(animationDurationSeconds), Children = { keyframe1, keyframe2 },
+                Easing = new ExponentialEaseOut()
             };
 
-            await animation.RunAsync(animatableElement);
+            await animation.RunAsync(animatableElement, token);
             
             //animatableElement.SetValue(dependencyProperty, animatableElement.GetValue(dependencyProperty));
             //CancelAnimation(animatableElement, dependencyProperty);
 
-            completedEvent?.Invoke(animatableElement, EventArgs.Empty);
+            if (!token.IsCancellationRequested)
+                completedEvent?.Invoke(animatableElement, EventArgs.Empty);
         }
 
         //public static void CancelAnimation(this Control animatableElement, DependencyProperty dependencyProperty)

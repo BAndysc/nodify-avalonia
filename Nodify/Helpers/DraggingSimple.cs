@@ -10,6 +10,7 @@ namespace Nodify
         void Update(Vector change);
         void End(Vector change);
         void Abort(Vector change);
+        void AddItems(IEnumerable<ItemContainer> additionalItemsToDrag);
     }
 
     internal class DraggingSimple : IDraggingStrategy
@@ -79,6 +80,12 @@ namespace Nodify
                     container.SetCurrentValue(ItemContainer.LocationProperty, new Point(container.Location.X + delta.X, container.Location.Y + delta.Y));
                 }
             }
+        }
+
+        public void AddItems(IEnumerable<ItemContainer> additionalItemsToDrag)
+        {
+            foreach (var x in additionalItemsToDrag)
+                _selectedContainers.Add(x);
         }
     }
 }

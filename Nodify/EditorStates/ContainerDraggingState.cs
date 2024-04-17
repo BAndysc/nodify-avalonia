@@ -40,7 +40,8 @@ namespace Nodify
             var delta = _currentMousePosition - _initialMousePosition;
             Container.RaiseEvent(new DragCompletedEventArgs(delta.X, delta.Y, Canceled)
             {
-                RoutedEvent = ItemContainer.DragCompletedEvent
+                RoutedEvent = ItemContainer.DragCompletedEvent,
+                Route = RoutingStrategies.Bubble | RoutingStrategies.Tunnel
             });
         }
 
@@ -51,7 +52,8 @@ namespace Nodify
             var delta = _currentMousePosition - _previousMousePosition;
             Container.RaiseEvent(new DragDeltaEventArgs(delta.X, delta.Y)
             {
-                RoutedEvent = ItemContainer.DragDeltaEvent
+                RoutedEvent = ItemContainer.DragDeltaEvent,
+                Route = RoutingStrategies.Bubble | RoutingStrategies.Tunnel
             });
 
             _previousMousePosition = _currentMousePosition;

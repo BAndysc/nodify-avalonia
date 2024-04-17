@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,6 +12,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Avalonia.Utilities;
 
 namespace Nodify
 {
@@ -23,7 +25,7 @@ namespace Nodify
     [StyleTypedProperty(Property = nameof(SelectionRectangleStyle), StyleTargetType = typeof(Rectangle))]
     [ContentProperty(nameof(Decorators))]
     [DefaultProperty(nameof(Decorators))]
-    public partial class NodifyEditor : MultiSelector
+    public partial class NodifyEditor : MultiSelector, IWeakEventSubscriber<NotifyCollectionChangedEventArgs>
     {
         protected const string ElementItemsHost = "PART_ItemsHost";
 
@@ -41,7 +43,9 @@ namespace Nodify
         public static readonly StyledProperty<Transform> ViewportTransformProperty = AvaloniaProperty.Register<NodifyEditor, Transform>(nameof(ViewportTransform), new TransformGroup());
         /// https://github.com/AvaloniaUI/Avalonia/issues/11959 workaround
         public static readonly StyledProperty<Transform> DpiScaledViewportTransformProperty = AvaloniaProperty.Register<NodifyEditor, Transform>(nameof(DpiScaledViewportTransform), new TransformGroup());
- 
+
+        public static readonly RoutedEvent<BeforeDraggingStartedEventArgs> BeforeDraggingStartedEvent = RoutedEvent.Register<BeforeDraggingStartedEventArgs>(nameof(BeforeDraggingStarted), RoutingStrategies.Bubble | RoutingStrategies.Tunnel, typeof(NodifyEditor));
+
         #region Callbacks
 
         private static void UpdateViewportTransform(NodifyEditor editor)
@@ -489,6 +493,7 @@ namespace Nodify
 
         public static readonly StyledProperty<IEnumerable> ConnectionsProperty = AvaloniaProperty.Register<NodifyEditor, IEnumerable>(nameof(Connections));
         public new static readonly StyledProperty<IList> SelectedItemsProperty = AvaloniaProperty.Register<NodifyEditor, IList>(nameof(SelectedItems));
+        public static readonly StyledProperty<IList> SelectedConnectionsProperty = AvaloniaProperty.Register<NodifyEditor, IList>(nameof(SelectedConnections));
         public static readonly StyledProperty<object> PendingConnectionProperty = AvaloniaProperty.Register<NodifyEditor, object>(nameof(PendingConnection));
         public static readonly StyledProperty<uint> GridCellSizeProperty = AvaloniaProperty.Register<NodifyEditor, uint>(nameof(GridCellSize), BoxValue.UInt1, coerce: OnCoerceGridCellSize);
         public static readonly StyledProperty<bool> DisableZoomingProperty = AvaloniaProperty.Register<NodifyEditor, bool>(nameof(DisableZooming), BoxValue.False);
@@ -554,6 +559,12 @@ namespace Nodify
         {
             get => (IList?)GetValue(SelectedItemsProperty);
             set => SetValue(SelectedItemsProperty, value);
+        }
+
+        public IList? SelectedConnections
+        {
+            get => (IList?)GetValue(SelectedConnectionsProperty);
+            set => SetValue(SelectedConnectionsProperty, value);
         }
 
         /// <summary>
@@ -729,6 +740,8 @@ namespace Nodify
         /// </summary>
         protected internal ItemsPresenter ItemsHost { get; private set; }
 
+        protected internal ConnectionsItemsControl ConnectionsItemsControl { get; private set; }
+
         private IDraggingStrategy? _draggingStrategy;
         private DispatcherTimer? _autoPanningTimer;
 
@@ -746,6 +759,23 @@ namespace Nodify
                 for (var i = 0; i < selectedItems.Count; i++)
                 {
                     var container = (ItemContainer)ContainerFromItem(selectedItems[i]);
+                    selectedContainers.Add(container);
+                }
+
+                return selectedContainers;
+            }
+        }
+
+        protected internal IReadOnlyList<ConnectionContainer> SelectedConnectionContainers
+        {
+            get
+            {
+                var selectedItems = ConnectionsItemsControl?.Selection.SelectedItems;
+                var selectedContainers = new List<ConnectionContainer>(selectedItems?.Count ?? 0);
+
+                for (var i = 0; i < selectedItems?.Count; i++)
+                {
+                    var container = (ConnectionContainer)ConnectionsItemsControl.ContainerFromItem(selectedItems[i]);
                     selectedContainers.Add(container);
                 }
 
@@ -807,6 +837,8 @@ namespace Nodify
 
             ItemsHost = e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter") ?? throw new InvalidOperationException("PART_ItemsHost is missing or is not of type Panel.");
 
+            ConnectionsItemsControl = e.NameScope.Get<ConnectionsItemsControl>("PART_ConnectionsItemsControl");
+
             OnDisableAutoPanningChanged(DisableAutoPanning);
 
             State.Enter(null, null);
@@ -866,6 +898,8 @@ namespace Nodify
             }
         }
 
+        private CancellationTokenSource? bringToViewToken;
+
         /// <summary>
         /// Moves the viewport center at the specified location.
         /// </summary>
@@ -875,6 +909,8 @@ namespace Nodify
         /// <remarks>Temporarily disables editor controls when animated.</remarks>
         public void BringIntoView(Point point, bool animated = true, Action? onFinish = null)
         {
+            bringToViewToken?.Cancel();
+
             Point newLocation = (Point)((Vector)point - ViewportSize.ToVector() / 2);
 
             if (animated && newLocation != ViewportLocation)
@@ -887,7 +923,8 @@ namespace Nodify
                 double duration = distance / (BringIntoViewSpeed + (distance / 10)) * ViewportZoom;
                 duration = Math.Max(0.1, Math.Min(duration, BringIntoViewMaxDuration));
 
-                this.StartAnimation(ViewportLocationProperty, newLocation, duration, (s, e) =>
+                bringToViewToken = new CancellationTokenSource();
+                this.StartAnimation(ViewportLocationProperty, newLocation, duration, bringToViewToken.Token, (s, e) =>
                 {
                     IsPanning = false;
                     SetCurrentValue(DisablePanningProperty, false);
@@ -1102,10 +1139,6 @@ namespace Nodify
         /// <inheritdoc />
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
         {
-            base.OnPointerReleased(e);
-            if (e.Handled)
-                return;
-            
             MouseLocation = e.GetPosition(ItemsHost);
             State.HandleMouseUp(new MouseButtonEventArgs(e));
 
@@ -1121,6 +1154,11 @@ namespace Nodify
             {
                 e.Handled = true;
             }
+
+            if (e.Handled)
+                return;
+
+            base.OnPointerReleased(e);
         }
 
         /// <inheritdoc />
@@ -1184,12 +1222,12 @@ namespace Nodify
         {
             if (oldValue is INotifyCollectionChanged oc)
             {
-                oc.CollectionChanged -= OnSelectedItemsChanged;
+                WeakEvents.CollectionChanged.Unsubscribe(oc, this);
             }
 
             if (newValue is INotifyCollectionChanged nc)
             {
-                nc.CollectionChanged += OnSelectedItemsChanged;
+                WeakEvents.CollectionChanged.Subscribe(nc, this);
             }
 
             var selectedItems = Selection.SelectedItems;
@@ -1292,6 +1330,25 @@ namespace Nodify
                 container.IsPreviewingSelection = null;
             }
             EndUpdateSelectedItems();
+            if (ConnectionsItemsControl != null)
+            {
+                ConnectionsItemsControl.Selection.BeginBatchUpdate();
+                var count = ConnectionsItemsControl.Items.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    var container = (ConnectionContainer)ConnectionsItemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+                    if (container.IsPreviewingSelection == true)
+                    {
+                        ConnectionsItemsControl.Selection.Select(i);
+                    }
+                    else if (container.IsPreviewingSelection == false)
+                    {
+                        ConnectionsItemsControl.Selection.Deselect(i);
+                    }
+                    container.IsPreviewingSelection = null;
+                }
+                ConnectionsItemsControl.Selection.EndBatchUpdate();
+            }
             IsSelecting = false;
         }
 
@@ -1302,6 +1359,15 @@ namespace Nodify
             {
                 var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
                 container.IsPreviewingSelection = null;
+            }
+            if (ConnectionsItemsControl != null)
+            {
+                var count = ConnectionsItemsControl.Items.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    var container = (ConnectionContainer)ConnectionsItemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+                    container.IsPreviewingSelection = null;
+                }
             }
         }
 
@@ -1433,6 +1499,16 @@ namespace Nodify
                 _draggingStrategy = new DraggingSimple(this);
             }
 
+            var args = new BeforeDraggingStartedEventArgs()
+            {
+                RoutedEvent = BeforeDraggingStartedEvent
+            };
+            this.RaiseEvent(args);
+            if (args.AdditionalItemsToDrag != null)
+            {
+                _draggingStrategy.AddItems(args.AdditionalItemsToDrag);
+            }
+
             _draggingStrategy.Start(new Vector(e.HorizontalOffset, e.VerticalOffset));
 
             if (Selection.Count > 0)
@@ -1487,5 +1563,27 @@ namespace Nodify
             => args.GetPosition(ItemsHost);
 
         #endregion
+
+        public event EventHandler<BeforeDraggingStartedEventArgs> BeforeDraggingStarted
+        {
+            add => AddHandler(BeforeDraggingStartedEvent, value);
+            remove => RemoveHandler(BeforeDraggingStartedEvent, value);
+        }
+
+        public override void UnselectAll()
+        {
+            base.UnselectAll();
+            ConnectionsItemsControl?.UnselectAll();
+        }
+
+        public void UnselectNodes()
+        {
+            base.UnselectAll();
+        }
+
+        public void UnselectConnections()
+        {
+            ConnectionsItemsControl?.UnselectAll();
+        }
     }
 }

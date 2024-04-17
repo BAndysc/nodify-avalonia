@@ -31,7 +31,7 @@ public class MultiSelector : SelectingItemsControl
         Selection.EndBatchUpdate();
     }
     
-    public void UnselectAll()
+    public virtual void UnselectAll()
     {
         Selection.Clear();
     }

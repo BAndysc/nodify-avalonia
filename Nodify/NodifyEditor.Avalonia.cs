@@ -1,3 +1,6 @@
+using System.Collections.Specialized;
+using Avalonia.Utilities;
+
 namespace Nodify;
 
 public partial class NodifyEditor
@@ -48,5 +51,10 @@ public partial class NodifyEditor
         // basically we release the pointer capture as soon as it is captured, so that later it can be manually captured
         // in correct places
         e.Pointer.Capture(null);
+    }
+
+    public void OnEvent(object? sender, WeakEvent ev, NotifyCollectionChangedEventArgs e)
+    {
+        OnSelectedItemsChanged(sender, e);
     }
 }

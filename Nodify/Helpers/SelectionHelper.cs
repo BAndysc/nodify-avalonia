@@ -15,6 +15,7 @@ namespace Nodify
         private SelectionType _selectionType;
         private bool _isRealtime;
         private IReadOnlyList<ItemContainer> _initialSelection = new List<ItemContainer>();
+        private IReadOnlyList<ConnectionContainer> _initialConnectionSelection = new List<ConnectionContainer>();
 
         /// <summary>Constructs a new instance of a <see cref="SelectionHelper"/>.</summary>
         /// <param name="host">The editor to select items from.</param>
@@ -44,6 +45,7 @@ namespace Nodify
             {
                 _selectionType = selectionType;
                 _initialSelection = _host.SelectedContainers;
+                _initialConnectionSelection = _host.SelectedConnectionContainers;
 
                 _isRealtime = _host.EnableRealtimeSelection;
                 _startLocation = location;
@@ -101,21 +103,21 @@ namespace Nodify
                     break;
 
                 case SelectionType.Remove:
-                    PreviewSelectContainers(_initialSelection);
+                    PreviewSelectContainers(_initialSelection, _initialConnectionSelection);
 
                     PreviewUnselectArea(area);
                     break;
 
                 case SelectionType.Append:
                     PreviewUnselectAll();
-                    PreviewSelectContainers(_initialSelection);
+                    PreviewSelectContainers(_initialSelection, _initialConnectionSelection);
 
                     PreviewSelectArea(area, true);
                     break;
 
                 case SelectionType.Invert:
                     PreviewUnselectAll();
-                    PreviewSelectContainers(_initialSelection);
+                    PreviewSelectContainers(_initialSelection, _initialConnectionSelection);
 
                     PreviewInvertSelection(area);
                     break;
@@ -131,6 +133,13 @@ namespace Nodify
             for (var i = 0; i < items.Count; i++)
             {
                 var container = (ItemContainer)_host.ItemContainerGenerator.ContainerFromIndex(i);
+                container.IsPreviewingSelection = false;
+            }
+
+            items = _host.ConnectionsItemsControl.Items;
+            for (var i = 0; i < items.Count; i++)
+            {
+                var container = (ConnectionContainer)_host.ConnectionsItemsControl.ItemContainerGenerator.ContainerFromIndex(i);
                 container.IsPreviewingSelection = false;
             }
         }
@@ -151,6 +160,16 @@ namespace Nodify
                     container.IsPreviewingSelection = true;
                 }
             }
+
+            items = _host.ConnectionsItemsControl.Items;
+            for (var i = 0; i < items.Count; i++)
+            {
+                var container = (ConnectionContainer)_host.ConnectionsItemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+                if (container.IsSelectableInArea(area, fit))
+                {
+                    container.IsPreviewingSelection = true;
+                }
+            }
         }
 
         private void PreviewUnselectArea(Rect area, bool fit = false)
@@ -164,13 +183,27 @@ namespace Nodify
                     container.IsPreviewingSelection = false;
                 }
             }
+
+            items = _host.ConnectionsItemsControl.Items;
+            for (var i = 0; i < items.Count; i++)
+            {
+                var container = (ConnectionContainer)_host.ConnectionsItemsControl.ItemContainerGenerator.ContainerFromIndex(i);
+                if (container.IsSelectableInArea(area, fit))
+                {
+                    container.IsPreviewingSelection = false;
+                }
+            }
         }
 
-        private void PreviewSelectContainers(IReadOnlyList<ItemContainer> containers)
+        private void PreviewSelectContainers(IReadOnlyList<ItemContainer> containers, IReadOnlyList<ConnectionContainer> connectionContainers)
         {
             for (var i = 0; i < containers.Count; i++)
             {
                 containers[i].IsPreviewingSelection = true;
+            }
+            for (var i = 0; i < connectionContainers.Count; i++)
+            {
+                connectionContainers[i].IsPreviewingSelection = true;
             }
         }
 
@@ -180,6 +213,16 @@ namespace Nodify
             for (var i = 0; i < items.Count; i++)
             {
                 var container = (ItemContainer)_host.ItemContainerGenerator.ContainerFromIndex(i);
+                if (container.IsSelectableInArea(area, fit))
+                {
+                    container.IsPreviewingSelection = !container.IsPreviewingSelection;
+                }
+            }
+
+            items = _host.ConnectionsItemsControl.Items;
+            for (var i = 0; i < items.Count; i++)
+            {
+                var container = (ConnectionContainer)_host.ConnectionsItemsControl.ItemContainerGenerator.ContainerFromIndex(i);
                 if (container.IsSelectableInArea(area, fit))
                 {
                     container.IsPreviewingSelection = !container.IsPreviewingSelection;

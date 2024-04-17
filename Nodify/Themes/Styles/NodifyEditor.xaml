@@ -61,17 +61,18 @@
                                 </ItemsPresenter.ItemsPanel>
                             </ItemsPresenter>
 
-                            <ItemsControl ItemsSource="{TemplateBinding Connections}"
-                                          ItemTemplate="{TemplateBinding ConnectionTemplate}"
-                                          ClipToBounds="False"
-                                          IsTabStop="False"
-                                          x:Name="PART_ConnectionsItemsControl">
+                            <local:ConnectionsItemsControl ItemsSource="{TemplateBinding Connections}"
+                                                     ItemTemplate="{TemplateBinding ConnectionTemplate}"
+                                                     SelectedItems="{TemplateBinding SelectedConnections, Mode=TwoWay}"
+                                                     ClipToBounds="False"
+                                                     IsTabStop="False"
+                                                     x:Name="PART_ConnectionsItemsControl">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <Canvas />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-                            </ItemsControl>
+                            </local:ConnectionsItemsControl>
 
                             <ContentControl ClipToBounds="False" Content="{TemplateBinding PendingConnection}" ContentTemplate="{TemplateBinding PendingConnectionTemplate}" />
 

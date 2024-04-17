@@ -150,9 +150,9 @@ namespace Nodify
 
         #region Routed Events
 
-        public static readonly RoutedEvent<DragStartedEventArgs> DragStartedEvent = RoutedEvent.Register<DragStartedEventArgs>(nameof(DragStarted), RoutingStrategies.Bubble, typeof(ItemContainer));
-        public static readonly RoutedEvent<DragCompletedEventArgs> DragCompletedEvent = RoutedEvent.Register<DragCompletedEventArgs>(nameof(DragCompleted), RoutingStrategies.Bubble, typeof(ItemContainer));
-        public static readonly RoutedEvent<DragDeltaEventArgs> DragDeltaEvent = RoutedEvent.Register<DragDeltaEventArgs>(nameof(DragDelta), RoutingStrategies.Bubble, typeof(ItemContainer));
+        public static readonly RoutedEvent<DragStartedEventArgs> DragStartedEvent = RoutedEvent.Register<DragStartedEventArgs>(nameof(DragStarted), RoutingStrategies.Bubble | RoutingStrategies.Tunnel, typeof(ItemContainer));
+        public static readonly RoutedEvent<DragCompletedEventArgs> DragCompletedEvent = RoutedEvent.Register<DragCompletedEventArgs>(nameof(DragCompleted), RoutingStrategies.Bubble | RoutingStrategies.Tunnel, typeof(ItemContainer));
+        public static readonly RoutedEvent<DragDeltaEventArgs> DragDeltaEvent = RoutedEvent.Register<DragDeltaEventArgs>(nameof(DragDelta), RoutingStrategies.Bubble | RoutingStrategies.Tunnel, typeof(ItemContainer));
         public static readonly RoutedEvent<RoutedEventArgs> SelectedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(Selected), RoutingStrategies.Bubble, typeof(ItemContainer));
         public static readonly RoutedEvent<RoutedEventArgs> UnselectedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(Unselected), RoutingStrategies.Bubble, typeof(ItemContainer));
         public static readonly RoutedEvent<RoutedEventArgs> LocationChangedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(LocationChanged), RoutingStrategies.Bubble, typeof(ItemContainer));
@@ -276,7 +276,7 @@ namespace Nodify
         /// Raises the <see cref="PreviewLocationChanged"/> event and sets the <see cref="IsPreviewingLocation"/> property to true.
         /// </summary>
         /// <param name="newLocation">The new location.</param>
-        protected internal void OnPreviewLocationChanged(Point newLocation)
+        public void OnPreviewLocationChanged(Point newLocation)
         {
             IsPreviewingLocation = true;
             PreviewLocationChanged?.Invoke(newLocation);
@@ -290,7 +290,7 @@ namespace Nodify
             FocusableProperty.OverrideDefaultValue<ItemContainer>(true);
             LocationProperty.Changed.AddClassHandler<ItemContainer>(OnLocationChanged);
             IsSelectedProperty.OverrideMetadata<ItemContainer>(new StyledPropertyMetadata<bool>(false, BindingMode.TwoWay));
-            IsSelectableProperty.Changed.AddClassHandler<ItemContainer>(OnIsSelectedChanged);
+            IsSelectedProperty.Changed.AddClassHandler<ItemContainer>(OnIsSelectedChanged);
         }
 
         /// <summary>
@@ -302,6 +302,7 @@ namespace Nodify
             Editor = editor;
             _states.Push(GetInitialState());
             UpdatePseudoClasses();
+            AddHandler(PointerReleasedEvent, OnPreviewPointerReleased, RoutingStrategies.Tunnel);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -404,7 +405,7 @@ namespace Nodify
         }
 
         /// <inheritdoc />
-        protected override void OnPointerReleased(PointerReleasedEventArgs e)
+        protected /*override*/ void OnPreviewPointerReleased(object sender, PointerReleasedEventArgs e)
         {
             if (IsSelectableLocation(e.GetPosition(this)) || ReferenceEquals(e.Pointer.Captured, this))
             {
@@ -417,6 +418,8 @@ namespace Nodify
                 e.Pointer.Capture(null);
                 this.PropagateMouseCapturedWithin(false);
             }
+
+            //base.OnPointerReleased(e);
         }
 
         /// <inheritdoc />

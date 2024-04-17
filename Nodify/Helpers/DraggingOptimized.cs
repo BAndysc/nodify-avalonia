@@ -86,5 +86,11 @@ namespace Nodify
                 }
             }
         }
+
+        public void AddItems(IEnumerable<ItemContainer> additionalItemsToDrag)
+        {
+            foreach (var x in additionalItemsToDrag)
+                _selectedContainers.Add(x);
+        }
     }
 }

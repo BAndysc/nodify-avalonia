@@ -234,16 +234,6 @@ namespace Nodify
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
-
-            Editor = this.GetParentOfType<NodifyEditor>();
-
-            if (Editor != null)
-            {
-                Editor.AddHandler(Connector.PendingConnectionStartedEvent, new PendingConnectionEventHandler(OnPendingConnectionStarted));
-                Editor.AddHandler(Connector.PendingConnectionDragEvent, new PendingConnectionEventHandler(OnPendingConnectionDrag));
-                Editor.AddHandler(Connector.PendingConnectionCompletedEvent, new PendingConnectionEventHandler(OnPendingConnectionCompleted));
-                SetAllowOnlyConnectorsAttached(Editor, AllowOnlyConnectors);
-            }
         }
 
         #region Event Handlers
