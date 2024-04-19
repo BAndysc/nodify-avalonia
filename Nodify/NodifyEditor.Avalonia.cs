@@ -57,4 +57,21 @@ public partial class NodifyEditor
     {
         OnSelectedItemsChanged(sender, e);
     }
+
+    private bool attachedToVisualTree;
+
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        attachedToVisualTree = true;
+        OnDisableAutoPanningChanged(DisableAutoPanning);
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        attachedToVisualTree = false;
+        _autoPanningTimer?.Stop();
+        _autoPanningTimer = null;
+    }
 }

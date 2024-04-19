@@ -1010,6 +1010,9 @@ namespace Nodify
         /// <param name="shouldDisable">Whether to enable or disable auto panning.</param>
         protected virtual void OnDisableAutoPanningChanged(bool shouldDisable)
         {
+            if (!attachedToVisualTree)
+                return;
+            
             if (shouldDisable)
             {
                 _autoPanningTimer?.Stop();
