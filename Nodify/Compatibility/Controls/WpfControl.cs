@@ -89,7 +89,13 @@ namespace Nodify.Compatibility
             currentPointerArgs.Pointer.Capture(null);
             this.PropagateMouseCapturedWithin(false);
         }
-        
+
+        protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
+        {
+            base.OnPointerCaptureLost(e);
+            this.PropagateMouseCapturedWithin(false);
+        }
+
         public bool IsMouseCaptured
         {
             get

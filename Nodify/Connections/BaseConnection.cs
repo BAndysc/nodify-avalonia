@@ -539,6 +539,12 @@ namespace Nodify
             return new Point((source.X + target.X - text.Width) / 2, (source.Y + target.Y - text.Height) / 2);
         }
 
+        protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
+        {
+            base.OnPointerCaptureLost(e);
+            this.PropagateMouseCapturedWithin(false);
+        }
+
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
             Focus();

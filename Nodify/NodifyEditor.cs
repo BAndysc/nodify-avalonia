@@ -1012,7 +1012,7 @@ namespace Nodify
         {
             if (!attachedToVisualTree)
                 return;
-            
+
             if (shouldDisable)
             {
                 _autoPanningTimer?.Stop();
@@ -1189,7 +1189,10 @@ namespace Nodify
 
         /// <inheritdoc />
         protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
-            => PopAllStates();
+        {
+            this.PropagateMouseCapturedWithin(false);
+            PopAllStates();
+        }
 
         /// <inheritdoc />
         protected override void OnPointerWheelChanged(PointerWheelEventArgs e)

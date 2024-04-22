@@ -436,7 +436,10 @@ namespace Nodify
 
         /// <inheritdoc />
         protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
-            => PopAllStates();
+        {
+            this.PropagateMouseCapturedWithin(false);
+            PopAllStates();
+        }
 
         protected override void OnKeyUp(KeyEventArgs e)
             => State.HandleKeyUp(e);

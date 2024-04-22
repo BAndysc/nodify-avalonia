@@ -321,6 +321,7 @@ namespace Nodify
                 ignoreNextOnPointerCaptureLost = false;
                 return;
             }
+            base.OnPointerCaptureLost(e);
             // Always cancel if lost capture
             OnConnectorDragCompleted(cancel: true, null);
         }
