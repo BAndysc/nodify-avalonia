@@ -107,7 +107,7 @@ namespace Nodify
     /// <summary>
     /// Represents the base class for shapes that are drawn from a <see cref="Source"/> point to a <see cref="Target"/> point.
     /// </summary>
-    public abstract class BaseConnection : WpfShape
+    public abstract partial class BaseConnection : WpfShape
     {
         #region Dependency Properties
 
@@ -536,7 +536,10 @@ namespace Nodify
             Point source = Source + sourceOffset;
             Point target = Target + targetOffset;
 
-            return new Point((source.X + target.X - text.Width) / 2, (source.Y + target.Y - text.Height) / 2);
+            double x = (source.X) + (target.X - source.X) * TextPositionFactor;
+            double y = (source.Y) + (target.Y - source.Y) * TextPositionFactor;
+
+            return new Point(x, y) - new Point(text.Width, text.Height) / 2;
         }
 
         protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
