@@ -1259,6 +1259,20 @@ namespace Nodify
             {
                 case NotifyCollectionChangedAction.Reset:
                     UnselectAll();
+                    if (sender is IList nowSelected)
+                    {
+                        if (nowSelected.Count == Items.Count)
+                        {
+                            Selection.SelectAll();
+                        }
+                        else
+                        {
+                            for (var i = 0; i < nowSelected.Count; i++)
+                            {
+                                Selection.Select(Items.IndexOf(nowSelected[i]));
+                            }
+                        }
+                    }
                     break;
 
                 case NotifyCollectionChangedAction.Add:
