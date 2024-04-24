@@ -214,6 +214,9 @@ public partial class ConnectionContainer : ContentControl, INodifyCanvasItem, IS
     /// <param name="newValue">True if selected, false otherwise.</param>
     protected void OnSelectedChanged(bool newValue)
     {
+        if (Editor == null) // i.e. when detaching
+            return;
+        
         // Don't raise the event if the editor is selecting
         if (!Editor.IsSelecting)
         {
