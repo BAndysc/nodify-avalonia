@@ -25,6 +25,7 @@ namespace Nodify
         {
             this.mouseEventArgs = mouseEventArgs;
             SourceConnector = sourceConnector;
+            KeyModifiers = mouseEventArgs?.KeyModifiers ?? 0;
         }
         
         /// <summary>
@@ -56,7 +57,11 @@ namespace Nodify
         /// Gets or sets a value that indicates whether this <see cref="PendingConnection"/> was cancelled.
         /// </summary>
         public bool Canceled { get; set; }
-        
+
+        public KeyModifiers KeyModifiers { get; }
+
+        internal MouseEventArgs? MouseEventArgs => mouseEventArgs;
+
         public Point GetPosition(Visual? relativeTo)
         {
             return mouseEventArgs?.GetPosition(relativeTo) ?? default;

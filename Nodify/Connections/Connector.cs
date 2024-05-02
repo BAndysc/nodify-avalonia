@@ -20,6 +20,10 @@ namespace Nodify
         public static readonly RoutedEvent<PendingConnectionEventArgs> PendingConnectionDragEvent = RoutedEvent.Register<PendingConnectionEventArgs>(nameof(PendingConnectionDrag), RoutingStrategies.Bubble, typeof(Connector));
         public static readonly RoutedEvent<ConnectorEventArgs> DisconnectEvent = RoutedEvent.Register<ConnectorEventArgs>(nameof(Disconnect), RoutingStrategies.Bubble, typeof(Connector));
 
+        ///  custom change: allow overriding potential connector
+        public static readonly RoutedEvent<PendingConnectionConnectorOverrideEventArgs> PendingConnectionConnectorOverrideEvent = RoutedEvent.Register<PendingConnectionConnectorOverrideEventArgs>(nameof(PendingConnectionConnectorOverride), RoutingStrategies.Bubble, typeof(Connector));
+
+
         /// <summary>Triggered by the <see cref="EditorGestures.Connector.Connect"/> gesture.</summary>
         public event PendingConnectionEventHandler PendingConnectionStarted
         {
@@ -41,6 +45,13 @@ namespace Nodify
         {
             add => AddHandler(PendingConnectionDragEvent, value);
             remove => RemoveHandler(PendingConnectionDragEvent, value);
+        }
+
+        ///  custom change: allow overriding potential connector
+        public event PendingConnectionConnectorOverrideEventHandler PendingConnectionConnectorOverride
+        {
+            add => AddHandler(PendingConnectionConnectorOverrideEvent, value);
+            remove => RemoveHandler(PendingConnectionConnectorOverrideEvent, value);
         }
 
         /// <summary>Triggered by the <see cref="EditorGestures.Connector.Disconnect"/> gesture.</summary>
@@ -430,8 +441,11 @@ namespace Nodify
             RaiseEvent(args);
         }
 
-        protected virtual void OnConnectorDragStarted(MouseButtonEventArgs e)
+        ///  custom change: public to call it from outside
+        public virtual void OnConnectorDragStarted(MouseButtonEventArgs e)
         {
+            ///  custom change: call UpdateAnchor before starting pending connection, because this method can be called from any place
+            UpdateAnchor();
             if (Thumb != null)
             {
                 _thumbCenter = new Point(Thumb.Bounds.Width / 2, Thumb.Bounds.Height / 2);
@@ -447,7 +461,7 @@ namespace Nodify
             RaiseEvent(args);
             IsPendingConnection = !args.Canceled;
 
-            if (IsMouseCaptured && !IsPendingConnection)
+            if (currentPointerArgs != null && IsMouseCaptured && !IsPendingConnection)
             {
                 ReleaseMouseCapture();
             }
@@ -458,6 +472,14 @@ namespace Nodify
             if (IsPendingConnection)
             {
                 FrameworkElement? elem = Editor != null ? PendingConnection.GetPotentialConnector(Editor, PendingConnection.GetAllowOnlyConnectorsAttached(Editor), e) : null;
+
+                var overrideArgs = new PendingConnectionConnectorOverrideEventArgs(this, e)
+                {
+                    RoutedEvent = PendingConnectionConnectorOverrideEvent,
+                    PotentialConnector = elem
+                };
+                RaiseEvent(overrideArgs);
+                elem = overrideArgs.PotentialConnector;
 
                 var args = new PendingConnectionEventArgs(DataContext, e)
                 {
@@ -496,5 +518,10 @@ namespace Nodify
         }
 
         #endregion
+
+        protected void PropagateMouseCapturedWithin(bool isCaptured)
+        {
+            ControlCaptureExtensions.PropagateMouseCapturedWithin(this, isCaptured);
+        }
     }
 }

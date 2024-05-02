@@ -80,7 +80,7 @@ namespace Nodify
 
             /// <summary>Gesture to start and complete a pending connection.</summary>
             /// <remarks>Defaults to <see cref="MouseAction.LeftClick"/>.</remarks>
-            public static InputGesture Connect { get; set; } = new MouseGesture(MouseAction.LeftClick);
+            public static InputGesture Connect { get; set; } = new MouseGesture(MouseAction.LeftClick, null);
 
             /// <summary>Gesture to cancel the pending connection.</summary>
             /// <remarks>Defaults to <see cref="MouseAction.RightClick"/> or <see cref="Key.Escape"/>.</remarks>

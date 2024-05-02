@@ -33,7 +33,8 @@ internal class MouseGesture : InputGesture
     /// </summary>
     /// <param name="mouseAction">Mouse Action</param>
     /// <param name="modifiers">Modifiers</param>
-    public MouseGesture( MouseAction mouseAction,KeyModifiers modifiers)   // acclerator action
+    ///  custom change: null to allow any key modifier
+    public MouseGesture( MouseAction mouseAction,KeyModifiers? modifiers)   // acclerator action
     {
         if (!MouseGesture.IsDefinedMouseAction(mouseAction))
             throw new InvalidEnumArgumentException("mouseAction", (int)mouseAction, typeof(MouseAction));
@@ -76,7 +77,7 @@ internal class MouseGesture : InputGesture
     /// <summary>
     /// Modifiers 
     /// </summary>
-    public KeyModifiers Modifiers
+    public KeyModifiers? Modifiers
     {
         get 
         { 
@@ -86,7 +87,7 @@ internal class MouseGesture : InputGesture
         {
             if (_modifiers != value)
             {
-                _modifiers = (KeyModifiers)value;
+                _modifiers = (KeyModifiers?)value;
                 OnPropertyChanged("Modifiers");
             }
         }
@@ -104,11 +105,11 @@ internal class MouseGesture : InputGesture
         MouseAction mouseAction = GetMouseAction(inputEventArgs);
         if(mouseAction != MouseAction.None && inputEventArgs is PointerEventArgs e)
         {
-            return ( ( (int)this.MouseAction == (int)mouseAction ) && ( this.Modifiers == e.KeyModifiers ) );
+            return ( ( (int)this.MouseAction == (int)mouseAction ) && ( this.Modifiers == null || this.Modifiers == e.KeyModifiers ) );
         }
         if(mouseAction != MouseAction.None && inputEventArgs is MouseButtonEventArgs mouseE)
         {
-            return ( ( (int)this.MouseAction == (int)mouseAction ) && ( this.Modifiers == mouseE.KeyModifiers ) );
+            return ( ( (int)this.MouseAction == (int)mouseAction ) && ( this.Modifiers == null || this.Modifiers == mouseE.KeyModifiers ) );
         }
         return false;
     }
@@ -264,7 +265,7 @@ internal class MouseGesture : InputGesture
     //------------------------------------------------------
     #region Private Fields
     private MouseAction  _mouseAction = MouseAction.None;
-    private KeyModifiers  _modifiers = KeyModifiers.None;
+    private KeyModifiers?  _modifiers ;
     //       private static bool _classRegistered = false;
     #endregion Private Fields
 }

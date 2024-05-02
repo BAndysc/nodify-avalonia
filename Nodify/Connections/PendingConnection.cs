@@ -275,6 +275,15 @@ namespace Nodify
                     // Look for a potential connector
                     FrameworkElement? connector = GetPotentialConnector(Editor, AllowOnlyConnectors, e);
 
+                    var args = new PendingConnectionConnectorOverrideEventArgs(e)
+                    {
+                        RoutedEvent = Connector.PendingConnectionConnectorOverrideEvent,
+                        PotentialConnector = connector
+                    };
+                    RaiseEvent(args);
+
+                    connector = args.PotentialConnector;
+
                     // Update the connector's anchor and snap to it if snapping is enabled
                     if (EnableSnapping && connector is Connector target)
                     {
@@ -368,7 +377,7 @@ namespace Nodify
             if (itemContainer != null && itemContainer.Editor == editor)
                 return itemContainer;
 
-            return editor;
+            return null;//editor; // custom, I'd rather return null, conection to NodifyEditor? seems weird
         }
 
         #endregion
