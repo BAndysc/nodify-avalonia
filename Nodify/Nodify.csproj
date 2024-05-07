@@ -60,7 +60,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.2.999-cibuild0047604-alpha" />
+    <PackageReference Include="Avalonia" Version="11.2.999-cibuild0048166-alpha" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Themes\*.xaml" />
