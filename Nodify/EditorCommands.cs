@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-
+﻿
 namespace Nodify
 {
-    internal static class EditorCommands
+    public static class EditorCommands
     {
         /// <summary>
         /// Specifies the possible alignment values used by the <see cref="Align"/> command.
@@ -181,9 +174,11 @@ namespace Nodify
                     case Point location:
                         editor.BringIntoView(location);
                         break;
+
                     case string str:
                         editor.BringIntoView(Point.Parse(str));
                         break;
+
                     default:
                         editor.BringIntoView(new Point());
                         break;
