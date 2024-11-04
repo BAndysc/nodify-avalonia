@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,8 +10,13 @@ namespace Nodify
     /// <summary>
     /// Represents a control that has a list of <see cref="Input"/> <see cref="Connector"/>s and a list of <see cref="Output"/> <see cref="Connector"/>s.
     /// </summary>
+    [TemplatePart(Name = ElementInputItemsControl, Type = typeof(ItemsControl))]
+    [TemplatePart(Name = ElementOutputItemsControl, Type = typeof(ItemsControl))]
     public partial class Node : HeaderedContentControl
     {
+        protected const string ElementInputItemsControl = "PART_Input";
+        protected const string ElementOutputItemsControl = "PART_Output";
+
         #region Dependency Properties
 
         public static readonly StyledProperty<IBrush> ContentBrushProperty = AvaloniaProperty.Register<Node, IBrush>(nameof(ContentBrush));
@@ -52,7 +59,7 @@ namespace Nodify
             get => (IBrush)GetValue(FooterBrushProperty);
             set => SetValue(FooterBrushProperty, value);
         }
-        
+
         /// <summary>
         /// Gets or sets the data for the footer of this control.
         /// </summary>
@@ -70,7 +77,7 @@ namespace Nodify
             get => (DataTemplate)GetValue(FooterTemplateProperty);
             set => SetValue(FooterTemplateProperty, value);
         }
-        
+
         /// <summary>
         /// Gets or sets the template used to display the content of the control's <see cref="Input"/> connectors.
         /// </summary>
@@ -79,7 +86,7 @@ namespace Nodify
             get => (DataTemplate)GetValue(InputConnectorTemplateProperty);
             set => SetValue(InputConnectorTemplateProperty, value);
         }
-        
+
         /// <summary>
         /// Gets or sets the template used to display the content of the control's <see cref="Output"/> connectors.
         /// </summary>
@@ -88,7 +95,7 @@ namespace Nodify
             get => (DataTemplate)GetValue(OutputConnectorTemplateProperty);
             set => SetValue(OutputConnectorTemplateProperty, value);
         }
-        
+
         /// <summary>
         /// Gets or sets the data for the input <see cref="Connector"/>s of this control.
         /// </summary>
@@ -97,7 +104,7 @@ namespace Nodify
             get => (IEnumerable)GetValue(InputProperty);
             set => SetValue(InputProperty, value);
         }
-        
+
         /// <summary>
         /// Gets or sets the data for the output <see cref="Connector"/>s of this control.
         /// </summary>
@@ -147,10 +154,104 @@ namespace Nodify
 
         #endregion
 
+        /// <inheritdoc cref="ItemsControl.GroupStyle"/>
+        public ObservableCollection<GroupStyle> InputGroupStyle { get; } = new ObservableCollection<GroupStyle>();
+        /// <inheritdoc cref="ItemsControl.GroupStyle"/>
+        public ObservableCollection<GroupStyle> OutputGroupStyle { get; } = new ObservableCollection<GroupStyle>();
+
+        protected ItemsControl? InputItemsControl { get; private set; }
+        protected ItemsControl? OutputItemsControl { get; private set; }
+
         static Node()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Node), new FrameworkPropertyMetadata(typeof(Node)));
             FooterProperty.Changed.AddClassHandler<Node>(OnFooterChanged);
+        }
+
+        public Node()
+        {
+            InputGroupStyle.CollectionChanged += OnInputGroupStyleCollectionChanged;
+            OutputGroupStyle.CollectionChanged += OnOutputGroupStyleCollectionChanged;
+        }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+
+            InputItemsControl = e.NameScope.Get<ItemsControl>(ElementInputItemsControl);
+            OutputItemsControl = e.NameScope.Get<ItemsControl>(ElementOutputItemsControl);
+
+            if (InputItemsControl != null)
+            {
+                foreach (var style in InputGroupStyle)
+                {
+                    // Not Supported in Avalonia
+                    // InputItemsControl.GroupStyle.Add(style);
+                }
+            }
+
+            if (OutputItemsControl != null)
+            {
+                foreach (var style in OutputGroupStyle)
+                {
+                    // Not Supported in Avalonia
+                    // OutputItemsControl.GroupStyle.Add(style);
+                }
+            }
+        }
+
+        private void OnInputGroupStyleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (InputItemsControl != null)
+            {
+                // Not Supported in Avalonia
+                // SynchronizeCollection(InputItemsControl.GroupStyle, e);
+            }
+        }
+
+        private void OnOutputGroupStyleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (OutputItemsControl != null)
+            {
+                // Not Supported in Avalonia
+                // SynchronizeCollection(OutputItemsControl.GroupStyle, e);
+            }
+        }
+
+        private static void SynchronizeCollection(ObservableCollection<GroupStyle> collection, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewItems != null)
+                    {
+                        for (int i = 0; i < e.NewItems.Count; i++)
+                        {
+                            var item = (GroupStyle)e.NewItems[i]!;
+                            collection.Add(item);
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldItems != null)
+                    {
+                        for (int i = 0; i < e.OldItems.Count; i++)
+                        {
+                            var item = (GroupStyle)e.OldItems[i]!;
+                            collection.Remove(item);
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    collection[e.NewStartingIndex] = (GroupStyle)e.NewItems![0]!;
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    collection.Move(e.OldStartingIndex, e.NewStartingIndex);
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    collection.Clear();
+                    break;
+            }
         }
     }
 }

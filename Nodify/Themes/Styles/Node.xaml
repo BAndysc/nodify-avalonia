@@ -94,7 +94,8 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!--Data IN-->
-                                    <ItemsControl ItemsSource="{TemplateBinding Input}"
+                                    <ItemsControl x:Name="PART_Input"
+                                                  ItemsSource="{TemplateBinding Input}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
                                                   Focusable="False" />
@@ -111,7 +112,8 @@
 
                                     <!--Data OUT-->
                                     <!-- HorizontalContentAlignment="Right" -->
-                                    <ItemsControl ItemsSource="{TemplateBinding Output}"
+                                    <ItemsControl x:Name="PART_Output"
+                                                  ItemsSource="{TemplateBinding Output}"
                                                   ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   Grid.Column="2"

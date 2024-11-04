@@ -4,6 +4,7 @@
 
 > - Breaking Changes:
 > - Features:
+>	- Added InputGroupStyle and OutputGroupStyle to Node (not supported in Avalonia)
 > - Bugfixes:
 
 #### **Version 6.5.0**
