@@ -7,11 +7,17 @@ internal static class StreamGeometryContextExtensions
         context.LineTo(point);
     }
 
-    public static void BezierTo(this StreamGeometryContext context, 
+    public static void BezierTo(this StreamGeometryContext context,
         Point point1, Point point2,
         Point point3, bool isStroked, bool isSmoothJoin)
     {
         context.CubicBezierTo(point1, point2, point3);
+    }
+
+    public static void QuadraticBezierTo(this StreamGeometryContext context,
+        Point point1, Point point2, bool isStroked, bool isSmoothJoin)
+    {
+        context.QuadraticBezierTo(point1, point2);
     }
 
     public static System.IDisposable BeginFigure(this StreamGeometryContext context, Point startPoint, bool isFilled, bool isClosed)
