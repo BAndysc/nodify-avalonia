@@ -118,6 +118,9 @@ namespace Nodify
                 ResetViewportLocation = new KeyGesture(Key.Home);
                 FitToScreen = new KeyGesture(Key.Home, ModifierKeys.Shift);
                 CancelAction = new AnyGesture(new MouseGesture(MouseAction.RightClick), new KeyGesture(Key.Escape));
+                PanWithMouseWheel = false;
+                PanHorizontalModifierKey = ModifierKeys.Shift;
+                PanVerticalModifierKey = ModifierKeys.None;
 
                 // Avalonia doesn't support Geometry Hit Testing, so Cutting can't work, hence disable it
                 // Follow https://github.com/AvaloniaUI/Avalonia/issues/16549 for more information
@@ -134,7 +137,19 @@ namespace Nodify
             /// <remarks>Defaults to <see cref="MouseAction.RightClick"/> or <see cref="MouseAction.MiddleClick"/>.</remarks>
             public InputGestureRef Pan { get; }
 
-            /// <summary>The key modifier required to start zooming by mouse wheel.</summary>
+            /// <summary>Whether panning using mouse wheel is allowed.</summary>
+            /// <remarks>Set the <see cref="ZoomModifierKey"/> to allow zooming using the mouse wheel.</remarks>
+            public bool PanWithMouseWheel { get; set; }
+
+            /// <summary>The modifier key required to start panning vertically with the mouse wheel (see <see cref="PanWithMouseWheel"/>)</summary>
+            /// <remarks>Defaults to <see cref="ModifierKeys.None"/>.</remarks>
+            public ModifierKeys PanVerticalModifierKey { get; set; }
+
+            /// <summary>The modifier key required to start panning horizontally with the mouse wheel (see <see cref="PanWithMouseWheel"/>)</summary>
+            /// <remarks>Defaults to <see cref="ModifierKeys.Shift"/>.</remarks>
+            public ModifierKeys PanHorizontalModifierKey { get; set; }
+
+            /// <summary>The modifier key required to start zooming with the mouse wheel.</summary>
             /// <remarks>Defaults to <see cref="ModifierKeys.None"/>.</remarks>
             public ModifierKeys ZoomModifierKey { get; set; }
 
@@ -171,6 +186,9 @@ namespace Nodify
                 ResetViewportLocation.Value = gestures.ResetViewportLocation.Value;
                 FitToScreen.Value = gestures.FitToScreen.Value;
                 CancelAction.Value = gestures.CancelAction.Value;
+                PanWithMouseWheel = gestures.PanWithMouseWheel;
+                PanHorizontalModifierKey = gestures.PanHorizontalModifierKey;
+                PanVerticalModifierKey = gestures.PanVerticalModifierKey;
             }
         }
 

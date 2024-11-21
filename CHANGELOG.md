@@ -5,6 +5,7 @@
 > - Breaking Changes:
 > - Features:
 >	- Added InputGroupStyle and OutputGroupStyle to Node (not supported in Avalonia)
+>	- Added PanWithMouseWheel, PanHorizontalModifierKey and PanVerticalModifierKey to EditorGestures.Editor
 >	- Added CornerRadius dependency property to LineConnection, CircuitConnection and StepConnection
 > - Bugfixes:
 

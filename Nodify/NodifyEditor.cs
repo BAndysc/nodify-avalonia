@@ -1337,7 +1337,7 @@ namespace Nodify
         /// <inheritdoc />
         protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
         {
-            State.HandleMouseWheel(new MouseWheelEventArgs());
+            State.HandleMouseWheel(new MouseWheelEventArgs(e));
 
             if (!e.Handled && EditorGestures.Mappings.Editor.ZoomModifierKey == e.KeyModifiers)
             {
