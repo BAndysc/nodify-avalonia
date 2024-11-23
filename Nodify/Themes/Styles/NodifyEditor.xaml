@@ -28,6 +28,20 @@
         </Setter>
     </ControlTheme>
 
+    <ControlTheme x:Key="PushedAreaStyle"
+           TargetType="Rectangle">
+        <Setter Property="Stroke"
+                Value="#74747c" />
+        <Setter Property="StrokeThickness"
+                Value="1" />
+        <Setter Property="Fill">
+            <Setter.Value>
+                <SolidColorBrush Opacity="0.2"
+                                 Color="#74747c" />
+            </Setter.Value>
+        </Setter>
+    </ControlTheme>
+
     <ControlTheme TargetType="{x:Type local:NodifyEditor}" x:Key="{x:Type local:NodifyEditor}">
         <Setter Property="ClipToBounds"
                 Value="True" />
@@ -43,6 +57,8 @@
                 Value="False" />
         <Setter Property="SelectionRectangleStyle"
                 Value="{StaticResource SelectionRectangleStyle}" />
+        <Setter Property="PushedAreaStyle"
+                Value="{StaticResource PushedAreaStyle}" />
         <Setter Property="ConnectionTemplate"
                 Value="{StaticResource ConnectionTemplate}" />
         <Setter Property="PendingConnectionTemplate"
@@ -103,6 +119,30 @@
                                 </Rectangle.Height>
                             </Rectangle>
 
+                            <Rectangle Theme="{TemplateBinding PushedAreaStyle}"
+                                    RenderTransform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource UnscaleTransformConverter}}"
+                                    RenderTransformOrigin="0,0"
+                                    Canvas.Top="{Binding PushedArea.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Canvas.Left="{Binding PushedArea.X, RelativeSource={RelativeSource TemplatedParent}}"
+                                    IsVisible="{TemplateBinding IsPushingItems}">
+                                <Rectangle.Width>
+                                    <MultiBinding Converter="{StaticResource ScaleDoubleConverter}">
+                                        <Binding Path="PushedArea.Width"
+                                                 RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom"
+                                                 RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </Rectangle.Width>
+                                <Rectangle.Height>
+                                    <MultiBinding Converter="{StaticResource ScaleDoubleConverter}">
+                                        <Binding Path="PushedArea.Height"
+                                                 RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom"
+                                                 RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </Rectangle.Height>
+                            </Rectangle>
+
                             <local:CuttingLine Theme="{TemplateBinding CuttingLineStyle}"
                                                IsVisible="{TemplateBinding IsCutting}"
                                                RenderTransformOrigin="0,0"
@@ -147,6 +187,7 @@
         <Style Selector="^:connections-on-top /template/ local|ConnectionsMultiSelector#PART_ConnectionsHost">
             <Setter Property="ZIndex" Value="0" />
         </Style>
+        <!-- TODO: Avalonia does not support MultiTrigger. Cursor changes for pushing items are not yet ported. -->
     </ControlTheme>
 
 </ResourceDictionary>

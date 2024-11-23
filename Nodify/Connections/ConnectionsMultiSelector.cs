@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,17 +44,7 @@ namespace Nodify
             set => base.CanSelectMultipleItems = value;
         }
 
-        /// <summary>
-        /// The <see cref="NodifyEditor"/> that owns this <see cref="ConnectionsMultiSelector"/>.
-        /// </summary>
-        public NodifyEditor Editor { get; private set; } = default!;
 
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            base.OnApplyTemplate(e);
-
-            Editor = this.GetParentOfType<NodifyEditor>() ?? throw new NotSupportedException($"{nameof(ConnectionsMultiSelector)} cannot be used outside the {nameof(NodifyEditor)}");
-        }
 
         protected override DependencyObject GetContainerForItemOverride()
         {

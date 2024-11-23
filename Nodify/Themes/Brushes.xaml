@@ -17,6 +17,13 @@
                      Opacity="0.1"
                      Color="{DynamicResource NodifyEditor.SelectionRectangleColor}" />
 
+    <SolidColorBrush x:Key="NodifyEditor.PushedAreaStrokeBrush"
+                     Color="{DynamicResource NodifyEditor.PushedAreaColor}" />
+
+    <SolidColorBrush x:Key="NodifyEditor.PushedAreaBackgroundBrush"
+                     Opacity="0.2"
+                     Color="{DynamicResource NodifyEditor.PushedAreaColor}" />
+
     <SolidColorBrush x:Key="NodifyEditor.CuttingLineStrokeBrush"
                      Color="{DynamicResource NodifyEditor.CuttingLineColor}" />
 

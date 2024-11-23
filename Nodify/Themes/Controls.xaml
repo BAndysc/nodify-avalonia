@@ -10,12 +10,22 @@
 
     <ControlTheme x:Key="NodifyEditor.SelectionRectangleStyle"
            TargetType="Rectangle">
-        <Setter Property="Stroke"
-                Value="{StaticResource NodifyEditor.SelectionRectangleStrokeBrush}" />
         <Setter Property="StrokeThickness"
                 Value="1" />
+        <Setter Property="Stroke"
+                Value="{StaticResource NodifyEditor.SelectionRectangleStrokeBrush}" />
         <Setter Property="Fill"
                 Value="{StaticResource NodifyEditor.SelectionRectangleBackgroundBrush}" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="NodifyEditor.PushedAreaStyle"
+           TargetType="Rectangle">
+        <Setter Property="StrokeThickness"
+                Value="1" />
+        <Setter Property="Stroke"
+                Value="{StaticResource NodifyEditor.PushedAreaStrokeBrush}" />
+        <Setter Property="Fill"
+                Value="{StaticResource NodifyEditor.PushedAreaBackgroundBrush}" />
     </ControlTheme>
 
     <ControlTheme TargetType="{x:Type local:NodifyEditor}" x:Key="{x:Type local:NodifyEditor}"
@@ -26,6 +36,8 @@
                 Value="{StaticResource NodifyEditor.ForegroundBrush}" />
         <Setter Property="SelectionRectangleStyle"
                 Value="{StaticResource NodifyEditor.SelectionRectangleStyle}" />
+        <Setter Property="PushedAreaStyle"
+                Value="{StaticResource NodifyEditor.PushedAreaStyle}" />
     </ControlTheme>
 
     <!--ITEM CONTAINER-->
