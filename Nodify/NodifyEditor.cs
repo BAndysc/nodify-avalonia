@@ -1437,7 +1437,7 @@ namespace Nodify
                 for (var i = 0; i < added.Count; i++)
                 {
                     // Ensure no duplicates are added
-                    if (!selected.Contains(added[i]))
+                    if (added[i] is not null && !selected.Contains(added[i]))
                     {
                         selected.Add(added[i]);
                     }
