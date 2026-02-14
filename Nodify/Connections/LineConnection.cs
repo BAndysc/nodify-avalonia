@@ -149,10 +149,8 @@ namespace Nodify
 
         protected static void AddSmoothCorner(StreamGeometryContext context, Point start, Point corner, Point end, double radius)
         {
-            Vector ab = corner - start;
-            Vector bc = end - corner;
-            double distAB = ab.SquaredLength;
-            double distBC = bc.SquaredLength;
+            double distAB = (corner - start).LengthSquared();
+            double distBC = (end - corner).LengthSquared();
 
             double bendSize = Math.Sqrt(Math.Min(distAB, distBC)) / 2;
             radius = Math.Min(bendSize, radius);
