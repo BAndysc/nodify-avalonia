@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: ["master", "release-v*"]
+    branches: ["master", "release-v*", "avalonia_port"]
     paths-ignore:
       - "docs/**"
   pull_request:

@@ -2,11 +2,11 @@ name: "CodeQL"
 
 on:
   push:
-    branches: ["master", "release-v*"]
+    branches: ["master", "release-v*", "avalonia_port"]
     paths:
       - Nodify/**
   pull_request:
-    branches: ["master", "release-v*"]
+    branches: ["master", "release-v*", "avalonia_port"]
   schedule:
     - cron: "27 6 * * 2"
 
