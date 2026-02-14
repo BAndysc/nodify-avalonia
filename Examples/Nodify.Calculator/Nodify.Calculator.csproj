@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8</TargetFrameworks>
+    <TargetFrameworks>net9</TargetFrameworks>
     <Nullable>enable</Nullable>
     <AssemblyOriginatorKeyFile>..\..\build\Nodify.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
