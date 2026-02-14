@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System;
 using System.Windows.Controls;
@@ -60,16 +60,7 @@ namespace Nodify
         public bool IsPushingItems
         {
             get => isPushingItems;
-            private set
-            {
-                if (SetAndRaise(IsPushingItemsProperty, ref isPushingItems, value))
-                {
-                    if (value)
-                        OnItemsPushStarted();
-                    else
-                        OnItemsPushCompleted();
-                }
-            }
+            private set => SetAndRaise(IsPushingItemsProperty, ref isPushingItems, value);
         }
 
         private Orientation pushedAreaOrientation;

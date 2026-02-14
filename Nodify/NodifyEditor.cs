@@ -959,6 +959,7 @@ namespace Nodify
             IsCuttingProperty.Changed.AddClassHandler<NodifyEditor>(OnIsCuttingChanged);
             CanSelectMultipleItemsProperty.Changed.AddClassHandler<NodifyEditor>(OnCanSelectMultipleItemsChanged);
             ItemsExtentProperty.Changed.AddClassHandler<NodifyEditor>(OnItemsExtentChanged);
+            IsPushingItemsProperty.Changed.AddClassHandler<NodifyEditor>(OnIsPushingItemsChanged);
 
             EditorCommands.Register(typeof(NodifyEditor));
         }

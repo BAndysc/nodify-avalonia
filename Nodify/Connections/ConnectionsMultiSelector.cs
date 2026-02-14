@@ -44,8 +44,6 @@ namespace Nodify
             set => base.CanSelectMultipleItems = value;
         }
 
-
-
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new ConnectionContainer(this);
