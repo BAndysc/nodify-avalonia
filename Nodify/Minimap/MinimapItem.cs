@@ -18,7 +18,7 @@ namespace Nodify
 
         static MinimapItem()
         {
-            PanelUtilities.AffectsParentArrange<DecoratorContainer>(LocationProperty);
+            PanelUtilities.AffectsParentMeasure<Layoutable>(LocationProperty);
         }
     }
 }
