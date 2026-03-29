@@ -1,9 +1,3 @@
-using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Layout;
-using Avalonia.VisualTree;
-
 namespace Nodify.Compatibility
 {
     internal static class PanelUtilities
@@ -15,7 +9,7 @@ namespace Nodify.Compatibility
             var panel = control?.GetVisualParent() as TPanel;
             panel?.InvalidateArrange();
         }
-        
+
         public static void AffectsParentArrange<TPanel>(params AvaloniaProperty[] properties)
             where TPanel : Layoutable
         {
@@ -24,7 +18,25 @@ namespace Nodify.Compatibility
                 property.Changed.Subscribe(new AnonuymousObserver<AvaloniaPropertyChangedEventArgs>(AffectsParentArrangeInvalidate<TPanel>));
             }
         }
-        
+
+
+        private static void AffectsParentMeasureInvalidate<TPanel>(AvaloniaPropertyChangedEventArgs e)
+            where TPanel : Layoutable
+        {
+            var control = e.Sender as Control;
+            var panel = control?.GetVisualParent() as TPanel;
+            panel?.InvalidateMeasure();
+        }
+
+        public static void AffectsParentMeasure<TPanel>(params AvaloniaProperty[] properties)
+            where TPanel : Layoutable
+        {
+            foreach (var property in properties)
+            {
+                property.Changed.Subscribe(new AnonuymousObserver<AvaloniaPropertyChangedEventArgs>(AffectsParentMeasureInvalidate<TPanel>));
+            }
+        }
+
         private class AnonuymousObserver<T> : IObserver<T>
         {
             private readonly Action<T> _onNext;
