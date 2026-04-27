@@ -8,6 +8,7 @@
         Background="{DynamicResource NodifyEditor.BackgroundBrush}"
         Foreground="{DynamicResource ForegroundBrush}"
         mc:Ignorable="d"
+        x:CompileBindings="False"
         Title="MainWindow"
         Height="650"
         Width="1200">

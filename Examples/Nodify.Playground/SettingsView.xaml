@@ -9,7 +9,7 @@
              d:Foreground="{DynamicResource ForegroundBrush}"
              d:Background="{DynamicResource PanelBackgroundBrush}"
              mc:Ignorable="d">
-    <ItemsControl ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <ItemsControl ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType=local:SettingsView}}">
         <ItemsControl.Resources>
             <DataTemplate x:Key="TextEditorTemplate" DataType="{x:Type local:ISettingViewModel}">
                 <TextBox Text="{Binding Value}" TextWrapping="Wrap" AcceptsReturn="True" />
