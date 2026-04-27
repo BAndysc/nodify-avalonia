@@ -6,6 +6,9 @@ namespace Nodify.Calculator
 {
     public partial class EditorView : UserControl
     {
+        private static readonly DataFormat<OperationInfoViewModel> _operationFormat =
+            DataFormat.CreateInProcessFormat<OperationInfoViewModel>(typeof(OperationInfoViewModel).FullName!);
+
         public EditorView()
         {
             InitializeComponent();
@@ -46,8 +49,16 @@ namespace Nodify.Calculator
         private void OnDropNode(object? sender, DragEventArgs e)
         {
             NodifyEditor? editor = (e.Source as NodifyEditor) ?? (e.Source as Control)?.GetLogicalParent() as NodifyEditor;
-            if(editor != null && editor.DataContext is CalculatorViewModel calculator
-                && e.Data.Get(typeof(OperationInfoViewModel).FullName) is OperationInfoViewModel operation)
+            OperationInfoViewModel? operation = null;
+            foreach (var item in e.DataTransfer.Items)
+            {
+                if (item.TryGetRaw(_operationFormat) is OperationInfoViewModel op)
+                {
+                    operation = op;
+                    break;
+                }
+            }
+            if (editor != null && editor.DataContext is CalculatorViewModel calculator && operation != null)
             {
                 OperationViewModel op = OperationFactory.GetOperation(operation);
                 op.Location = editor.GetLocationInsideEditor(e);
@@ -57,13 +68,16 @@ namespace Nodify.Calculator
             }
         }
         
-        private void OnNodeDrag(object? sender, MouseEventArgs e)
+        private async void OnNodeDrag(object? sender, MouseEventArgs e)
         {
-            if(leftButtonPressed && ((Control)sender).DataContext is OperationInfoViewModel operation)
+            if (leftButtonPressed && _lastPointerPressed != null && ((Control)sender).DataContext is OperationInfoViewModel operation)
             {
-                var data = new DataObject();
-                data.Set(typeof(OperationInfoViewModel).FullName, operation);
-                DragDrop.DoDragDrop(e, data, DragDropEffects.Copy);
+                leftButtonPressed = false;
+                var item = new DataTransferItem();
+                item.Set(_operationFormat, operation);
+                var data = new DataTransfer();
+                data.Add(item);
+                await DragDrop.DoDragDropAsync(_lastPointerPressed, data, DragDropEffects.Copy);
             }
         }
 
@@ -71,6 +85,8 @@ namespace Nodify.Calculator
         {
             leftButtonPressed = e.GetCurrentPoint(this).Properties.PointerUpdateKind ==
                                 PointerUpdateKind.LeftButtonPressed;
+            if (leftButtonPressed)
+                _lastPointerPressed = e;
         }
 
         private void OnNodeExited(object? sender, PointerEventArgs e)
@@ -79,5 +95,6 @@ namespace Nodify.Calculator
         }
         
         private bool leftButtonPressed;
+        private PointerPressedEventArgs? _lastPointerPressed;
     }
 }

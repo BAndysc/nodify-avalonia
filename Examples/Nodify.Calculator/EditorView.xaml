@@ -11,6 +11,7 @@
              xmlns:compatibility="clr-namespace:Nodify.Compatibility;assembly=Nodify"
              d:DataContext="{d:DesignInstance Type=local:EditorViewModel}"
              mc:Ignorable="d"
+             x:CompileBindings="False"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.Resources>

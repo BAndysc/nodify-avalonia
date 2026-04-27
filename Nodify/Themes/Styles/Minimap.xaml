@@ -45,11 +45,11 @@
                                 <ItemsPresenter Name="PART_ItemsPresenter">
                                     <ItemsPresenter.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <local:MinimapPanel ViewportSize="{TemplateBinding ViewportSize}"
-                                                                ViewportLocation="{TemplateBinding ViewportLocation}"
-                                                                ResizeToViewport="{TemplateBinding ResizeToViewport}"
-                                                                Extent="{Binding Extent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWayToSource}"
-                                                                ItemsExtent="{Binding ItemsExtent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWayToSource}" />
+                                                                <local:MinimapPanel ViewportSize="{Binding ViewportSize, RelativeSource={RelativeSource AncestorType={x:Type local:Minimap}}}"
+                                                                ViewportLocation="{Binding ViewportLocation, RelativeSource={RelativeSource AncestorType={x:Type local:Minimap}}}"
+                                                                ResizeToViewport="{Binding ResizeToViewport, RelativeSource={RelativeSource AncestorType={x:Type local:Minimap}}}"
+                                                                Extent="{Binding Extent, RelativeSource={RelativeSource AncestorType={x:Type local:Minimap}}, Mode=OneWayToSource}"
+                                                                ItemsExtent="{Binding ItemsExtent, RelativeSource={RelativeSource AncestorType={x:Type local:Minimap}}, Mode=OneWayToSource}" />
                                         </ItemsPanelTemplate>
                                     </ItemsPresenter.ItemsPanel>
                                 </ItemsPresenter>

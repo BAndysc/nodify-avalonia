@@ -100,7 +100,7 @@ namespace Nodify.Shapes.Canvas
 
         #endregion
 
-        private void Minimap_Zoom(object sender, ZoomEventArgs e)
+        private void Minimap_Zoom(object? sender, ZoomEventArgs e)
         {
             Editor.ZoomAtPosition(e.Zoom, e.Location);
         }
