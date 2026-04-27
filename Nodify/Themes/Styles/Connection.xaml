@@ -10,6 +10,9 @@
         <Style Selector="^[(local|BaseConnection.IsSelectable)=true]">
             <Setter Property="Cursor" Value="Hand" />
         </Style>
+        <Style Selector="^[(local|BaseConnection.IsSelected)=true]">
+            <Setter Property="OutlineBrush" Value="{DynamicResource ItemContainer.SelectedBrush}" />
+        </Style>
     </ControlTheme>
 
     <ControlTheme TargetType="{x:Type local:Connection}"
