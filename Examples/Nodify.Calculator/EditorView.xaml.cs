@@ -1,11 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Avalonia.Input;
 
 namespace Nodify.Calculator
 {
     public partial class EditorView : UserControl
     {
+        private static readonly DataFormat<OperationInfoViewModel> OperationDragFormat =
+            DataFormat.CreateInProcessFormat<OperationInfoViewModel>("nodify.calculator.operation");
+
         public EditorView()
         {
             InitializeComponent();
@@ -47,7 +51,7 @@ namespace Nodify.Calculator
         {
             NodifyEditor? editor = (e.Source as NodifyEditor) ?? (e.Source as Control)?.GetLogicalParent() as NodifyEditor;
             if(editor != null && editor.DataContext is CalculatorViewModel calculator
-                && e.Data.Get(typeof(OperationInfoViewModel).FullName) is OperationInfoViewModel operation)
+                && e.DataTransfer?.TryGetValue(OperationDragFormat) is OperationInfoViewModel operation)
             {
                 OperationViewModel op = OperationFactory.GetOperation(operation);
                 op.Location = editor.GetLocationInsideEditor(e);
@@ -56,28 +60,29 @@ namespace Nodify.Calculator
                 e.Handled = true;
             }
         }
-        
-        private void OnNodeDrag(object? sender, MouseEventArgs e)
+
+        private void OnNodeDrag(object? sender, PointerEventArgs e)
         {
-            if(leftButtonPressed && ((Control)sender).DataContext is OperationInfoViewModel operation)
+            if(_pressedEventArgs is { } pressed && ((Control)sender!).DataContext is OperationInfoViewModel operation)
             {
-                var data = new DataObject();
-                data.Set(typeof(OperationInfoViewModel).FullName, operation);
-                DragDrop.DoDragDrop(e, data, DragDropEffects.Copy);
+                var data = new DataTransfer();
+                data.Add(DataTransferItem.Create(OperationDragFormat, operation));
+                _pressedEventArgs = null;
+                _ = DragDrop.DoDragDropAsync(pressed, data, DragDropEffects.Copy);
             }
         }
 
         private void OnNodePressed(object? sender, PointerPressedEventArgs e)
         {
-            leftButtonPressed = e.GetCurrentPoint(this).Properties.PointerUpdateKind ==
-                                PointerUpdateKind.LeftButtonPressed;
+            _pressedEventArgs = e.GetCurrentPoint(this).Properties.PointerUpdateKind ==
+                                PointerUpdateKind.LeftButtonPressed ? e : null;
         }
 
         private void OnNodeExited(object? sender, PointerEventArgs e)
         {
-            leftButtonPressed = false;
+            _pressedEventArgs = null;
         }
-        
-        private bool leftButtonPressed;
+
+        private PointerPressedEventArgs? _pressedEventArgs;
     }
 }

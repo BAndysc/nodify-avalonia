@@ -44,7 +44,7 @@ public class RoutedCommand : ICommand
         CommandManager.InvalidateRequerySuggested();
     }
 
-    private static void GotFocusEventHandler(Interactive focused, GotFocusEventArgs e)
+    private static void GotFocusEventHandler(Interactive focused, Avalonia.Input.FocusChangedEventArgs e)
     {
         _focusedElement = focused as IInputElement;
     }
@@ -80,7 +80,7 @@ public class RoutedCommand : ICommand
             }
 
             if (control is PopupRoot popup)
-                control = ((IHostedVisualTreeRoot)popup).Host as Interactive;
+                control = popup.Parent as Interactive;
             else
                 control = control.Parent as Interactive;
         }
@@ -111,7 +111,7 @@ public class RoutedCommand : ICommand
             }
 
             if (control is PopupRoot popup)
-                control = ((IHostedVisualTreeRoot)popup).Host as Interactive;
+                control = popup.Parent as Interactive;
             else
                 control = control.Parent as Interactive;
         }

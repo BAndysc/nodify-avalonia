@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nodify.Playground"
         xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
+        xmlns:behaviours="clr-namespace:Nodify.Shared.Behaviours;assembly=Nodify.Shared"
         xmlns:nodify="https://miroiu.github.io/nodify"
         mc:Ignorable="d"
         Title="MainWindow"
@@ -61,7 +62,7 @@
                             Content="BRING INTO VIEW"
                             ToolTip.Tip="Bring a random node into view."
                             Theme="{StaticResource HollowButton}" />
-                    <WpfBtn Command="{x:Static nodify:EditorCommands.FitToScreen}"
+                    <behaviours:WpfBtn Command="{x:Static nodify:EditorCommands.FitToScreen}"
                             Content="FIT TO SCREEN"
                             CommandTarget="{Binding EditorInstance, ElementName=EditorView}"
                             ToolTip.Tip="Scales the viewport to fit all nodes if that's possible."
@@ -101,12 +102,12 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="IsExpanded" 
+                                <behaviours:DataTrigger Property="IsExpanded" 
                                              UseDataContext="False"
                                              Value="True">
-                                    <PropertySetter Property="Tag"
+                                    <behaviours:PropertySetter Property="Tag"
                                             Value="{StaticResource ExpandLeftIcon}" />
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>
@@ -144,12 +145,12 @@
                                     <Setter Property="(Interaction.Behaviors)">
                                         <BehaviorCollectionTemplate>
                                             <BehaviorCollection>
-                                                <DataTrigger Property="IsExpanded"
+                                                <behaviours:DataTrigger Property="IsExpanded"
                                                              UseDataContext="False"
                                                          Value="True">
-                                                    <PropertySetter Property="Tag"
+                                                    <behaviours:PropertySetter Property="Tag"
                                                             Value="{StaticResource ExpandDownIcon}" />
-                                                </DataTrigger>
+                                                </behaviours:DataTrigger>
                                             </BehaviorCollection>
                                         </BehaviorCollectionTemplate>
                                     </Setter>
@@ -176,12 +177,12 @@
                                     <Setter Property="(Interaction.Behaviors)">
                                         <BehaviorCollectionTemplate>
                                             <BehaviorCollection>
-                                                <DataTrigger Property="IsExpanded"
+                                                <behaviours:DataTrigger Property="IsExpanded"
                                                              UseDataContext="False"
                                                          Value="True">
-                                                    <PropertySetter Property="Tag"
+                                                    <behaviours:PropertySetter Property="Tag"
                                                             Value="{StaticResource ExpandDownIcon}" />
-                                                </DataTrigger>
+                                                </behaviours:DataTrigger>
                                             </BehaviorCollection>
                                         </BehaviorCollectionTemplate>
                                     </Setter>

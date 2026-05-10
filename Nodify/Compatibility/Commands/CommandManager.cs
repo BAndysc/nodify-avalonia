@@ -50,7 +50,7 @@ internal static class CommandManager
         InvalidateRequerySuggested();
     }
 
-    private static void GotFocusEventHandler(Interactive sender, GotFocusEventArgs e)
+    private static void GotFocusEventHandler(Interactive sender, Avalonia.Input.FocusChangedEventArgs e)
     {
         InvalidateRequerySuggested();
     }

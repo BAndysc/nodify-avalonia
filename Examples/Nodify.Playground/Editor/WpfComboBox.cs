@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.VisualTree;
@@ -28,7 +30,7 @@ public class WpfComboBox : ComboBox
     
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
-        if ((e.Source as Control)?.GetVisualRoot() is not PopupRoot)
+        if ((e.Source as Visual)?.GetSelfAndVisualAncestors().LastOrDefault() is not PopupRoot)
             e.Handled = true;
         base.OnPointerReleased(e);
     }

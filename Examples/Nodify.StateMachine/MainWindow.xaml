@@ -98,13 +98,13 @@
                                     <Setter Property="(Interaction.Behaviors)">
                                         <BehaviorCollectionTemplate>
                                             <BehaviorCollection>
-                                                <DataTrigger Property="IsActive"
+                                                <behaviours:DataTrigger Property="IsActive"
                                                                         Value="True">
-                                                    <PropertySetter Property="Stroke"
+                                                    <behaviours:PropertySetter Property="Stroke"
                                                                     Value="{DynamicResource ActiveStateBrush}" />
-                                                    <PropertySetter Property="StrokeThickness"
+                                                    <behaviours:PropertySetter Property="StrokeThickness"
                                                                     Value="6" />
-                                                </DataTrigger>
+                                                </behaviours:DataTrigger>
                                             </BehaviorCollection>
                                         </BehaviorCollectionTemplate>
                                     </Setter>
@@ -142,16 +142,16 @@
                                     <Setter Property="(Interaction.Behaviors)">
                                         <BehaviorCollectionTemplate>
                                             <BehaviorCollection>
-                                                <DataTrigger Property="IsEditable"
+                                                <behaviours:DataTrigger Property="IsEditable"
                                                              Value="False">
-                                                    <PropertySetter Property="BorderBrush"
+                                                    <behaviours:PropertySetter Property="BorderBrush"
                                                                     Value="{DynamicResource ReadOnlyStateBrush}" />
-                                                </DataTrigger>
-                                                <DataTrigger Property="IsActive"
+                                                </behaviours:DataTrigger>
+                                                <behaviours:DataTrigger Property="IsActive"
                                                              Value="True">
-                                                    <PropertySetter Property="BorderBrush"
+                                                    <behaviours:PropertySetter Property="BorderBrush"
                                                                     Value="{DynamicResource ActiveStateBrush}" />
-                                                </DataTrigger>
+                                                </behaviours:DataTrigger>
                                             </BehaviorCollection>
                                         </BehaviorCollectionTemplate>
                                     </Setter>
@@ -264,18 +264,18 @@
                             <Setter Property="(Interaction.Behaviors)">
                                 <BehaviorCollectionTemplate>
                                     <BehaviorCollection>
-                                        <DataTrigger Property="Runner.State"
+                                        <behaviours:DataTrigger Property="Runner.State"
                                                      Value="Stopped">
-                                            <PropertySetter Property="IsVisible"
+                                            <behaviours:PropertySetter Property="IsVisible"
                                                             Value="False" />
-                                        </DataTrigger>
-                                        <DataTrigger Property="Runner.State"
+                                        </behaviours:DataTrigger>
+                                        <behaviours:DataTrigger Property="Runner.State"
                                                      Value="Paused">
-                                            <PropertySetter Property="Content"
+                                            <behaviours:PropertySetter Property="Content"
                                                             Value="{StaticResource UnpauseIcon}" />
-                                            <PropertySetter Property="(ToolTip.Tip)"
+                                            <behaviours:PropertySetter Property="(ToolTip.Tip)"
                                                             Value="Continue" />
-                                        </DataTrigger>
+                                        </behaviours:DataTrigger>
                                     </BehaviorCollection>
                                 </BehaviorCollectionTemplate>
                             </Setter>
@@ -296,13 +296,13 @@
                                     <Setter Property="(Interaction.Behaviors)">
                                         <BehaviorCollectionTemplate>
                                             <BehaviorCollection>
-                                                <DataTrigger Property="Runner.State"
+                                                <behaviours:DataTrigger Property="Runner.State"
                                                              Value="Stopped">
-                                                    <PropertySetter Property="Content"
+                                                    <behaviours:PropertySetter Property="Content"
                                                                     Value="{StaticResource RunIcon}" />
-                                                    <PropertySetter Property="(ToolTip.Tip)"
+                                                    <behaviours:PropertySetter Property="(ToolTip.Tip)"
                                                                     Value="Run" />
-                                                </DataTrigger>
+                                                </behaviours:DataTrigger>
                                             </BehaviorCollection>
                                         </BehaviorCollectionTemplate>
                                     </Setter>
@@ -315,13 +315,13 @@
 
                 <Separator Width="1" Height="20" />
 
-                <WpfBtn Content="{StaticResource ZoomInIcon}"
+                <behaviours:WpfBtn Content="{StaticResource ZoomInIcon}"
                         Command="{x:Static nodify:EditorCommands.ZoomIn}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ToolTip.Tip="Zoom In"
                         Theme="{StaticResource IconButton}" />
 
-                <WpfBtn Content="{StaticResource ZoomOutIcon}"
+                <behaviours:WpfBtn Content="{StaticResource ZoomOutIcon}"
                         Command="{x:Static nodify:EditorCommands.ZoomOut}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ToolTip.Tip="Zoom Out"
@@ -350,12 +350,12 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="IsExpanded"
+                                <behaviours:DataTrigger Property="IsExpanded"
                                              UseDataContext="False"
                                              Value="True">
-                                    <PropertySetter Property="Tag"
+                                    <behaviours:PropertySetter Property="Tag"
                                                     Value="{StaticResource ExpandLeftIcon}" />
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>
@@ -409,12 +409,12 @@
                                                     <Setter Property="(Interaction.Behaviors)">
                                                         <BehaviorCollectionTemplate>
                                                             <BehaviorCollection>
-                                                                <DataTrigger Property="IsExpanded"
+                                                                <behaviours:DataTrigger Property="IsExpanded"
                                                                              UseDataContext="False"
                                                                              Value="True">
-                                                                    <PropertySetter Property="Tag"
+                                                                    <behaviours:PropertySetter Property="Tag"
                                                                         Value="{StaticResource ExpandDownIcon}" />
-                                                                </DataTrigger>
+                                                                </behaviours:DataTrigger>
                                                             </BehaviorCollection>
                                                         </BehaviorCollectionTemplate>
                                                     </Setter>
@@ -429,11 +429,11 @@
                                                             <Setter Property="(Interaction.Behaviors)">
                                                                 <BehaviorCollectionTemplate>
                                                                     <BehaviorCollection>
-                                                                        <DataTrigger Property="IsActive"
+                                                                        <behaviours:DataTrigger Property="IsActive"
                                                                                      Value="True">
-                                                                            <PropertySetter Property="Foreground"
+                                                                            <behaviours:PropertySetter Property="Foreground"
                                                                                             Value="{DynamicResource ActiveStateBrush}" />
-                                                                        </DataTrigger>
+                                                                        </behaviours:DataTrigger>
                                                                     </BehaviorCollection>
                                                                 </BehaviorCollectionTemplate>
                                                             </Setter>
@@ -499,28 +499,28 @@
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="From: "
                                                                        VerticalAlignment="Center" />
-                                                            <WpfBtn Theme="{StaticResource IconButton}"
+                                                            <behaviours:WpfBtn Theme="{StaticResource IconButton}"
                                                                     Command="{x:Static nodify:EditorCommands.BringIntoView}"
                                                                     CommandParameter="{Binding Source.Location}"
                                                                     CommandTarget="{Binding ElementName=Editor}"
                                                                     Foreground="DodgerBlue">
                                                                 <TextBlock Text="{Binding Source.Name}"
                                                                            TextDecorations="Underline" />
-                                                            </WpfBtn>
+                                                            </behaviours:WpfBtn>
                                                         </StackPanel>
 
                                                         <StackPanel Orientation="Horizontal"
                                                                     Grid.Column="1">
                                                             <TextBlock Text="To: "
                                                                        VerticalAlignment="Center" />
-                                                            <WpfBtn Theme="{StaticResource IconButton}"
+                                                            <behaviours:WpfBtn Theme="{StaticResource IconButton}"
                                                                     Command="{x:Static nodify:EditorCommands.BringIntoView}"
                                                                     CommandParameter="{Binding Target.Location}"
                                                                     CommandTarget="{Binding ElementName=Editor}"
                                                                     Foreground="DodgerBlue">
                                                                 <TextBlock Text="{Binding Target.Name}"
                                                                            TextDecorations="Underline" />
-                                                            </WpfBtn>
+                                                            </behaviours:WpfBtn>
                                                         </StackPanel>
                                                     </Grid>
                                                 </Grid>
@@ -610,9 +610,9 @@
                                             <Setter Property="(Interaction.Behaviors)">
                                                 <BehaviorCollectionTemplate>
                                                     <BehaviorCollection>
-                                                        <DataTrigger Property="IsExpanded" UseDataContext="False" Value="True">
-                                                            <PropertySetter Property="Tag" Value="{StaticResource ExpandDownIcon}" />
-                                                        </DataTrigger>
+                                                        <behaviours:DataTrigger Property="IsExpanded" UseDataContext="False" Value="True">
+                                                            <behaviours:PropertySetter Property="Tag" Value="{StaticResource ExpandDownIcon}" />
+                                                        </behaviours:DataTrigger>
                                                     </BehaviorCollection>
                                                 </BehaviorCollectionTemplate>
                                             </Setter>
@@ -655,9 +655,9 @@
                                             <Setter Property="(Interaction.Behaviors)">
                                                 <BehaviorCollectionTemplate>
                                                     <BehaviorCollection>
-                                                        <DataTrigger Property="IsExpanded" UseDataContext="False" Value="True">
-                                                            <PropertySetter Property="Tag" Value="{StaticResource ExpandDownIcon}" />
-                                                        </DataTrigger>
+                                                        <behaviours:DataTrigger Property="IsExpanded" UseDataContext="False" Value="True">
+                                                            <behaviours:PropertySetter Property="Tag" Value="{StaticResource ExpandDownIcon}" />
+                                                        </behaviours:DataTrigger>
                                                     </BehaviorCollection>
                                                 </BehaviorCollectionTemplate>
                                             </Setter>

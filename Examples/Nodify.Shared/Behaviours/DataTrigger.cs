@@ -8,7 +8,6 @@ using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
 
-[assembly: XmlnsDefinition("https://github.com/avaloniaui", "Nodify.Shared.Behaviours")]
 
 namespace Nodify.Shared.Behaviours;
 
