@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Nodify.Shapes.Canvas"
              xmlns:nodify="https://miroiu.github.io/nodify"
              xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
+             xmlns:behaviours="clr-namespace:Nodify.Shared.Behaviours;assembly=Nodify.Shared"
              xmlns:controls="clr-namespace:Nodify.Shapes.Controls"
              xmlns:o="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
              mc:Ignorable="d"
@@ -105,10 +106,10 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="CanvasToolbar.SelectedTool" Value="{x:Static local:CanvasTool.None}">
-                                    <PropertySetter Property="Cursor"
+                                <behaviours:DataTrigger Property="CanvasToolbar.SelectedTool" Value="{x:Static local:CanvasTool.None}">
+                                    <behaviours:PropertySetter Property="Cursor"
                                                     Value="{x:Static controls:Cursors.Arrow}" />
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>
@@ -576,13 +577,13 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
 
-                <WpfBtn Command="{Binding UndoCommand}"
+                <behaviours:WpfBtn Command="{Binding UndoCommand}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ContentTemplate="{StaticResource ArrowBackIcon}"
                         ToolTip.Tip="CTRL+Z"
                         Padding="1" />
 
-                <WpfBtn Command="{Binding RedoCommand}"
+                <behaviours:WpfBtn Command="{Binding RedoCommand}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ContentTemplate="{StaticResource ArrowForwardIcon}"
                         ToolTip.Tip="CTRL+SHIFT+z"
@@ -613,15 +614,15 @@
                     </ControlTheme>
                 </StackPanel.Resources>
 
-                <WpfBtn Command="{x:Static nodify:EditorCommands.ZoomIn}"
+                <behaviours:WpfBtn Command="{x:Static nodify:EditorCommands.ZoomIn}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ContentTemplate="{StaticResource PlusIcon}" />
 
-                <WpfBtn Command="{x:Static nodify:EditorCommands.ZoomOut}"
+                <behaviours:WpfBtn Command="{x:Static nodify:EditorCommands.ZoomOut}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ContentTemplate="{StaticResource MinusIcon}" />
 
-                <WpfBtn Command="{x:Static nodify:EditorCommands.FitToScreen}"
+                <behaviours:WpfBtn Command="{x:Static nodify:EditorCommands.FitToScreen}"
                         CommandTarget="{Binding ElementName=Editor}"
                         ContentTemplate="{StaticResource MaximizeIcon}" />
 
@@ -635,10 +636,10 @@
                             <Setter Property="(Interaction.Behaviors)">
                                 <BehaviorCollectionTemplate>
                                     <BehaviorCollection>
-                                        <DataTrigger Property="Locked" Value="True">
-                                            <PropertySetter Property="ContentTemplate"
+                                        <behaviours:DataTrigger Property="Locked" Value="True">
+                                            <behaviours:PropertySetter Property="ContentTemplate"
                                                             Value="{StaticResource LockIcon}" />
-                                        </DataTrigger>
+                                        </behaviours:DataTrigger>
                                     </BehaviorCollection>
                                 </BehaviorCollectionTemplate>
                             </Setter>
@@ -672,7 +673,7 @@
                             <Border.Effect>
                                 <DropShadowDirectionEffect ShadowDepth="1" />
                             </Border.Effect>
-                            <WpfBtn Command="{x:Static nodify:EditorCommands.BringIntoView}"
+                            <behaviours:WpfBtn Command="{x:Static nodify:EditorCommands.BringIntoView}"
                                     CommandParameter="{Binding Location}"
                                     CommandTarget="{Binding ElementName=Editor}"
                                     Theme="{StaticResource IconButton}"

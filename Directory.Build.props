@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AvaloniaVersion>11.1.0</AvaloniaVersion>
+    <AvaloniaVersion>12.0.2</AvaloniaVersion>
+    <XamlBehaviorsVersion>12.0.0</XamlBehaviorsVersion>
+    <ProDiagnosticsVersion>12.0.0</ProDiagnosticsVersion>
   </PropertyGroup>
 </Project>

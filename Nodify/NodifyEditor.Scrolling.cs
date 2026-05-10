@@ -14,8 +14,8 @@ namespace Nodify
         /// </summary>
         public static double ScrollIncrement { get; set; } = MouseWheelDeltaForOneLine / 2;
 
-        bool ILogicalScrollable.CanHorizontallyScroll { get; set; }
-        bool ILogicalScrollable.CanVerticallyScroll { get; set; }
+        public bool CanHorizontallyScroll { get; set; }
+        public bool CanVerticallyScroll { get; set; }
 
         private double _extentWidth;
         double IScrollInfo.ExtentWidth => _extentWidth;

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Nodify.Playground"
+             xmlns:behaviours="clr-namespace:Nodify.Shared.Behaviours;assembly=Nodify.Shared"
              xmlns:nodify="clr-namespace:Nodify;assembly=Nodify.Shared"
              d:DataContext="{d:DesignInstance Type=local:PlaygroundViewModel, IsDesignTimeCreatable=True}"
              d:Foreground="{DynamicResource ForegroundBrush}"
@@ -45,26 +46,26 @@
                                 <Setter Property="(Interaction.Behaviors)">
                                     <BehaviorCollectionTemplate>
                                         <BehaviorCollection>
-                                            <DataTrigger Property="Type" Value="Boolean">
-                                                <PropertySetter Property="ContentTemplate"
+                                            <behaviours:DataTrigger Property="Type" Value="Boolean">
+                                                <behaviours:PropertySetter Property="ContentTemplate"
                                                         Value="{StaticResource ResourceKey=BooleanEditorTemplate}" />
-                                            </DataTrigger>
-                                            <DataTrigger Property="Type" Value="Number">
-                                                <PropertySetter Property="ContentTemplate"
+                                            </behaviours:DataTrigger>
+                                            <behaviours:DataTrigger Property="Type" Value="Number">
+                                                <behaviours:PropertySetter Property="ContentTemplate"
                                                                 Value="{StaticResource ResourceKey=NumberEditorTemplate}" />
-                                            </DataTrigger>
-                                            <DataTrigger Property="Type" Value="Point">
-                                                <PropertySetter Property="ContentTemplate"
+                                            </behaviours:DataTrigger>
+                                            <behaviours:DataTrigger Property="Type" Value="Point">
+                                                <behaviours:PropertySetter Property="ContentTemplate"
                                                                 Value="{StaticResource ResourceKey=PointEditorTemplate}" />
-                                            </DataTrigger>
-                                            <DataTrigger Property="Type" Value="Option">
-                                                <PropertySetter Property="ContentTemplate"
+                                            </behaviours:DataTrigger>
+                                            <behaviours:DataTrigger Property="Type" Value="Option">
+                                                <behaviours:PropertySetter Property="ContentTemplate"
                                                                 Value="{StaticResource ResourceKey=OptionEditorTemplate}" />
-                                            </DataTrigger>
-                                            <DataTrigger Property="Type" Value="Text">
-                                                <PropertySetter Property="ContentTemplate"
+                                            </behaviours:DataTrigger>
+                                            <behaviours:DataTrigger Property="Type" Value="Text">
+                                                <behaviours:PropertySetter Property="ContentTemplate"
                                                                 Value="{StaticResource ResourceKey=TextEditorTemplate}" />
-                                            </DataTrigger>
+                                            </behaviours:DataTrigger>
                                         </BehaviorCollection>
                                     </BehaviorCollectionTemplate>
                                 </Setter>

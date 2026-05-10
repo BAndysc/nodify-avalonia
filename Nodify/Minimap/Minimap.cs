@@ -26,7 +26,7 @@ namespace Nodify
         public static readonly StyledProperty<bool> ResizeToViewportProperty = AvaloniaProperty.Register<Minimap, bool>(nameof(ResizeToViewport));
         public static readonly StyledProperty<bool> IsReadOnlyProperty = TextBox.IsReadOnlyProperty.AddOwner<Minimap>();
 
-        public static readonly RoutedEvent ZoomEvent = RoutedEvent.Register<ZoomEventArgs>(nameof(Zoom), RoutingStrategies.Bubble, typeof(Minimap));
+        public static readonly RoutedEvent<ZoomEventArgs> ZoomEvent = RoutedEvent.Register<ZoomEventArgs>(nameof(Zoom), RoutingStrategies.Bubble, typeof(Minimap));
 
         /// <inheritdoc cref="NodifyEditor.ViewportLocation" />
         public Point ViewportLocation

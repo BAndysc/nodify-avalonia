@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <AssemblyOriginatorKeyFile>..\..\build\Nodify.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -18,9 +18,9 @@
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)"/>
     <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)"/>
     <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)"/>
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.1.0.4"/>
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)"/>
+    <PackageReference Include="Xaml.Behaviors.Avalonia" Version="$(XamlBehaviorsVersion)"/>
+    <!--Condition below is needed to remove ProDiagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="ProDiagnostics" Version="$(ProDiagnosticsVersion)"/>
   </ItemGroup>
 
   <ItemGroup>
