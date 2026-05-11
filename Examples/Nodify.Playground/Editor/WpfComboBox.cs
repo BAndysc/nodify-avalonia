@@ -28,7 +28,7 @@ public class WpfComboBox : ComboBox
     
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
-        if ((e.Source as Control)?.GetVisualRoot() is not PopupRoot)
+        if (TopLevel.GetTopLevel(e.Source as Control) is not PopupRoot)
             e.Handled = true;
         base.OnPointerReleased(e);
     }

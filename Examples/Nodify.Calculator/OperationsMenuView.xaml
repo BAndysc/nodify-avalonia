@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Nodify.Calculator"
              xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
              mc:Ignorable="d"
+             x:DataType="local:OperationsMenuViewModel"
              MinWidth="250"
              d:DesignHeight="400"
              d:DesignWidth="250"

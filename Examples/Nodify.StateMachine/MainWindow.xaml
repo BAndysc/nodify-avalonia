@@ -11,6 +11,7 @@
         xmlns:compatibility="clr-namespace:Nodify.Compatibility;assembly=Nodify"
         CanResize="True"
         mc:Ignorable="d"
+        x:DataType="local:StateMachineViewModel"
         Background="{DynamicResource NodifyEditor.BackgroundBrush}"
         Foreground="{DynamicResource ForegroundBrush}"
         Title="State Machine Editor"

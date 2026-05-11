@@ -8,6 +8,7 @@
         Background="{DynamicResource NodifyEditor.BackgroundBrush}"
         Foreground="{DynamicResource ForegroundBrush}"
         mc:Ignorable="d"
+        x:DataType="local:ApplicationViewModel"
         Title="MainWindow"
         Height="650"
         Width="1200">
@@ -42,7 +43,8 @@
                              AddTabCommand="{Binding AddEditorCommand}"
                              AutoScrollToEnd="{Binding AutoSelectNewEditor}">
             <shared:TabControlEx.ItemContainerTheme>
-                <ControlTheme TargetType="{x:Type shared:TabItemEx}" 
+                <ControlTheme TargetType="{x:Type shared:TabItemEx}"
+                       x:DataType="local:EditorViewModel"
                        BasedOn="{StaticResource {x:Type shared:TabItemEx}}">
                     <Setter Property="Header" 
                             Value="{Binding Name}"/>

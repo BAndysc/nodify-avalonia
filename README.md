@@ -61,6 +61,7 @@ Avalonia version compatibility chart:
 
 | Nodify version | Avalonia version |
 |----------------|------------------|
+| unreleased     | 12.0.3           |
 | 6.6.0          | 11.1.0           |
 | 6.5.0          | 11.1.0           |
 | 6.2.0          | 11.1.0           |

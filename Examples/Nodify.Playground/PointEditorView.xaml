@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Nodify.Playground"
              d:DataContext="{d:DesignInstance Type={x:Type local:PointEditor}, IsDesignTimeCreatable=True}"
              mc:Ignorable="d"
+             x:DataType="local:PointEditor"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>

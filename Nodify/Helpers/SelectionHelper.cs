@@ -131,7 +131,7 @@ namespace Nodify
             ItemCollection items = _host.Items;
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)_host.ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)_host.ContainerFromIndex(i);
                 container.IsPreviewingSelection = false;
             }
         }
@@ -148,7 +148,7 @@ namespace Nodify
                 ItemCollection items = _host.Items;
                 for (var i = 0; i < items.Count; i++)
                 {
-                    var container = (ItemContainer)_host.ItemContainerGenerator.ContainerFromIndex(i);
+                    var container = (ItemContainer)_host.ContainerFromIndex(i);
                     if (container.IsSelectableInArea(area, fit))
                     {
                         container.IsPreviewingSelection = true;
@@ -162,7 +162,7 @@ namespace Nodify
             ItemCollection items = _host.Items;
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)_host.ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)_host.ContainerFromIndex(i);
                 if (container.IsSelectableInArea(area, fit))
                 {
                     container.IsPreviewingSelection = false;
@@ -183,7 +183,7 @@ namespace Nodify
             ItemCollection items = _host.Items;
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)_host.ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)_host.ContainerFromIndex(i);
                 if (container.IsSelectableInArea(area, fit))
                 {
                     container.IsPreviewingSelection = !container.IsPreviewingSelection;

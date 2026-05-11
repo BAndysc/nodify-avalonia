@@ -44,7 +44,7 @@ public class RoutedCommand : ICommand
         CommandManager.InvalidateRequerySuggested();
     }
 
-    private static void GotFocusEventHandler(Interactive focused, GotFocusEventArgs e)
+    private static void GotFocusEventHandler(Interactive focused, RoutedEventArgs e)
     {
         _focusedElement = focused as IInputElement;
     }
@@ -80,7 +80,7 @@ public class RoutedCommand : ICommand
             }
 
             if (control is PopupRoot popup)
-                control = ((IHostedVisualTreeRoot)popup).Host as Interactive;
+                control = popup.ParentTopLevel as Interactive;
             else
                 control = control.Parent as Interactive;
         }
@@ -110,8 +110,8 @@ public class RoutedCommand : ICommand
                 }
             }
 
-            if (control is PopupRoot popup)
-                control = ((IHostedVisualTreeRoot)popup).Host as Interactive;
+            if (control is PopupRoot popup2)
+                control = popup2.ParentTopLevel as Interactive;
             else
                 control = control.Parent as Interactive;
         }
