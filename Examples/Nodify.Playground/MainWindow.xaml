@@ -7,7 +7,7 @@
         xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
         xmlns:nodify="https://miroiu.github.io/nodify"
         mc:Ignorable="d"
-        x:CompileBindings="False"
+        x:DataType="local:PlaygroundViewModel"
         Title="MainWindow"
         Height="700"
         Width="1300">

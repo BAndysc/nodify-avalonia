@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Nodify.StateMachine"
              xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
              mc:Ignorable="d"
-             x:CompileBindings="False"
+             x:DataType="local:BlackboardKeyEditorViewModel"
              d:DataContext="{d:DesignInstance Type={x:Type local:BlackboardKeyEditorViewModel}, IsDesignTimeCreatable=True}"
              d:Background="{DynamicResource PanelBackgroundBrush}"
              d:DesignWidth="400">

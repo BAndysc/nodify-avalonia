@@ -11,7 +11,7 @@
              xmlns:compatibility="clr-namespace:Nodify.Compatibility;assembly=Nodify"
              d:DataContext="{d:DesignInstance Type=local:EditorViewModel}"
              mc:Ignorable="d"
-             x:CompileBindings="False"
+             x:DataType="local:EditorViewModel"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.Resources>
@@ -129,6 +129,7 @@
         </DataTemplate>
         
         <ControlTheme x:Key="ItemContainerStyle"
+               x:DataType="local:OperationViewModel"
                TargetType="{x:Type nodify:ItemContainer}"
                BasedOn="{StaticResource {x:Type nodify:ItemContainer}}">
             <Setter Property="Location"
