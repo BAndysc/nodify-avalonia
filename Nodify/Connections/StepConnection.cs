@@ -30,7 +30,7 @@ namespace Nodify
         {
             SourcePositionProperty.Changed.AddClassHandler<StepConnection>(OnConnectorPositionChanged);
             TargetPositionProperty.Changed.AddClassHandler<StepConnection>(OnConnectorPositionChanged);
-            AffectsRender<StepConnection>(SourcePositionProperty, TargetPositionProperty);
+            AffectsGeometry<StepConnection>(SourcePositionProperty, TargetPositionProperty);
             SourceOrientationProperty.OverrideMetadata<StepConnection>(new StyledPropertyMetadata<Orientation>(defaultValue: Orientation.Horizontal, coerce: CoerceSourceOrientation));
             TargetOrientationProperty.OverrideMetadata<StepConnection>(new StyledPropertyMetadata<Orientation>(defaultValue: Orientation.Horizontal, coerce: CoerceTargetOrientation));
             DirectionProperty.OverrideMetadata<StepConnection>(new StyledPropertyMetadata<ConnectionDirection>(defaultValue: ConnectionDirection.Forward, coerce: CoerceConnectionDirection));

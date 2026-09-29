@@ -27,7 +27,7 @@ namespace Nodify
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CircuitConnection), new FrameworkPropertyMetadata(typeof(CircuitConnection)));
             NodifyEditor.CuttingConnectionTypes.Add(typeof(CircuitConnection));
-            AffectsRender<CircuitConnection>(AngleProperty);
+            AffectsGeometry<CircuitConnection>(AngleProperty);
         }
 
         protected override ((Point ArrowStartSource, Point ArrowStartTarget), (Point ArrowEndSource, Point ArrowEndTarget)) DrawLineGeometry(StreamGeometryContext context, Point source, Point target)

@@ -841,17 +841,16 @@ namespace Nodify
 
         protected override void Render(DrawingContext drawingContext)
         {
-            if (OutlineBrush != null)
+            if (OutlineBrush != null && RenderedGeometry is { } geometry)
             {
-                drawingContext.DrawGeometry(OutlineBrush, GetOutlinePen(), CreateDefiningGeometry());
+                drawingContext.DrawGeometry(OutlineBrush, GetOutlinePen(), geometry);
             }
 
             base.Render(drawingContext);
         
             if (!string.IsNullOrEmpty(Text))
             {
-                var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
-                var text = new FormattedText(Text, CultureInfo.CurrentUICulture, FlowDirection, typeface, FontSize, Foreground ?? Stroke);
+                var text = GetFormattedText();
 
                 (Vector sourceOffset, Vector targetOffset) = GetOffset();
                 drawingContext.DrawText(text, GetTextPosition(text, Source + sourceOffset, Target + targetOffset));

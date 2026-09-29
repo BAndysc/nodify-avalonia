@@ -64,7 +64,14 @@ public class WpfShape : Panel
         _shape.OnCreateDefiningGeometry += OnCreateDefiningGeometry;
     }
 
-    private void InvalidateGeometry() => _shape?.InvalidateGeometry();
+    /// <summary>Gets the shape's cached geometry, including its stretch transform.</summary>
+    protected Geometry? RenderedGeometry => _shape?.RenderedGeometry;
+
+    private void InvalidateGeometry()
+    {
+        _shape?.InvalidateGeometry();
+        InvalidateVisual();
+    }
     
     private Geometry? OnCreateDefiningGeometry() => CreateDefiningGeometry();
 
